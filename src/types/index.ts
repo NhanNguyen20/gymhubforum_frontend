@@ -1,57 +1,92 @@
-interface PostStatsProp {
+export interface PostStatsProp {
   likeCount: number;
-  className: string;
+  className?: string;
 }
 
-interface ThreadStatsProp {
+export interface ThreadStatsProp {
   postCount: number;
   viewCount: number;
+  likeCount?: number;
   lastUpload: string;
-  className: string;
+  className?: string;
 }
 
-interface PictureProp {
+export interface PictureProp {
   blob: Blob | null;
   alt: string;
-  className: string;
+  className?: string;
 }
 
-interface ProfileInfoProp {
+export interface ProfileInfoProp {
   // img : string;
-  username: string;
+  id: number;
+  userName: string;
+  email: string;
   bio: string;
+  stringAvatar?: string;
   joinDate: string;
-  lastSeenDate: string;
-  className: string;
-}
-
-interface ProfileStatProp {
+  lastSeen: string;
+  className?: string;
   likeCount: number;
   postCount: number;
   followerCount: number;
-  className: string;
 }
 
-interface LatestPostProp {
+export interface ProfileStatProp {
+  likeCount: number;
+  postCount: number;
+  followerCount: number;
+  className?: string;
+}
+
+export interface LatestPostProp {
   title: string;
   content: string;
   date: string;
   boxType: string;
-  className: string;
+  className?: string;
 }
 
-interface TagsProp {
+export interface TagsProp {
   tags: string[];
   limit: number;
-  className: string;
+  className?: string;
 }
 
-export type {
-  PostStatsProp,
-  PictureProp,
-  ThreadStatsProp,
-  ProfileInfoProp,
-  ProfileStatProp,
-  LatestPostProp,
-  TagsProp,
-};
+export interface PostDetailProp {
+  threadId: string;
+  postId: number;
+  authorId: number;
+  content: string;
+  encodedImages: string[];
+  className?: string;
+}
+
+export interface ThreadInfoProp {
+  id: number;
+  creationDateTime: string;
+  likeCount: number;
+  viewCount: number;
+  beenReport: boolean;
+  postCount: number;
+  authorName: string;
+  authorId: string;
+  authorAvatar: string;
+  name: string;
+  className?: string;
+}
+
+export interface PostInfoProp {
+  id: number;
+  creationDateTime: string;
+  likeCount: number;
+  viewCount: number;
+  beenReport: boolean;
+  beenLiked: boolean;
+  postCount: number;
+  authorName: string;
+  authorId: string;
+  authorAvatar: string;
+  name: string;
+  className?: string;
+}

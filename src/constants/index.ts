@@ -1,15 +1,14 @@
 // label, type, name, value, placeholder
 
 export const loginFormFields = [
-    ['Username', 'text', 'username', '', 'Enter your username'],
+    ['Username', 'text', 'userName', '', 'Enter your username'],
     ['Password', 'password', 'password', '', 'Enter your password']
 ]
 
 export const signupFormFields = [
     ['Email', 'email', 'email', '', 'Enter your email'],
-    ['Username', 'text', 'username', '', 'Enter your username'],
+    ['Username', 'text', 'userName', '', 'Enter your username'],
     ['Password', 'password', 'password', '', 'Enter your password'],
-    ['Contact Number', 'number', 'phoneNumber', '', 'Enter your phone number']
 ]
 
 export const banMemberFormFields = [
