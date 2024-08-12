@@ -1,6 +1,4 @@
 "use client";
-import SelectOption from "./SelectOption";
-import CheckBoxes from "./CheckBoxes";
 import {
   loginFormFields,
   signupFormFields,
@@ -11,9 +9,8 @@ import {
 } from "@/constants";
 import { useState } from "react";
 import type { FormProps } from "antd";
-import { Form, Button, Input, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import TextArea from "antd/es/input/TextArea";
+import { Form, Button } from "antd";
+import FormComponent from "./FormComponent";
 
 const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -31,50 +28,6 @@ const FormGroup = ({ formType }: { formType: string }) => {
 
   const handleSubmit = () => {
     console.log(formData);
-  };
-
-  // a handler to return specific field component
-  const getFormField = (field: any) => {
-    switch (field[1]) {
-      case "select":
-        return (
-          <SelectOption
-            selectType={formType}
-            updateChange={handleInputChange}
-          />
-        );
-      case "selectMany":
-        return (
-          <CheckBoxes selectType={formType} updateChange={handleInputChange} />
-        );
-      case "fileInput": // UI done, haven't handled for img upload
-        return (
-          <Upload>
-            <Button icon={<UploadOutlined />}>Upload File</Button>
-          </Upload>
-        );
-      case "textArea":
-        return (
-          <TextArea
-            name={field[2]}
-            placeholder={field[4]}
-            onChange={(e) => {
-              handleInputChange(field[2], e.target.value);
-            }}
-          />
-        );
-      default:
-        return (
-          <Input
-            type={field[1]}
-            name={field[2]}
-            placeholder={field[4]}
-            onChange={(e) => {
-              handleInputChange(field[2], e.target.value);
-            }}
-          />
-        );
-    }
   };
 
   const getFormFields = () => {
@@ -109,7 +62,11 @@ const FormGroup = ({ formType }: { formType: string }) => {
         <h2 className="text-center capitalize">{formType}</h2>
         {formFields.map((field, index) => (
           <Form.Item label={field[0]} key={index}>
-            {getFormField(field)}
+            <FormComponent
+              formType={formType}
+              field={field}
+              handleInputChange={handleInputChange}
+            />
           </Form.Item>
         ))}
 
