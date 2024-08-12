@@ -1,8 +1,32 @@
-import React, { FC } from "react";
-import { PictureProp } from "@/types";
+"use client";
 
-const Picture: React.FC<PictureProp> = (props) => {
-    return (<img src ="" alt = "Picture"></img>)
-}
+import React, { useEffect, useState } from 'react';
+import { PictureProp } from '@/types';
 
-export default Picture
+const Picture: React.FC<PictureProp> = ({ blob, alt, className }) => {
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (blob) {
+      const url = URL.createObjectURL(blob);
+      setBlobUrl(url);
+
+      return () => {
+        URL.revokeObjectURL(url);
+      };
+    }
+  }, [blob]);
+
+  return (
+    <div>
+      <h2>Picture</h2>
+      {blobUrl ? (
+        <img src={blobUrl} alt={alt} className={className} />
+      ) : (
+        <p>Loading image...</p>
+      )}
+    </div>
+  );
+};
+
+export default Picture;
