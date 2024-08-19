@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { PictureProp } from '@/types';
+import { PictureProps } from '@/types';
 
-const Picture: React.FC<PictureProp> = ({ blob, alt, className }) => {
+const Picture: React.FC<PictureProps> = ({ blob, alt, className }) => {
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
   useEffect(() => {

@@ -1,8 +1,8 @@
-import { ProfileStatProp } from "@/types";
+import { ProfileStatProps } from "@/types";
 import { Statistic } from "antd";
 import React from "react";
 
-const profileStat: React.FC<ProfileStatProp> = (props) => {
+const profileStat: React.FC<ProfileStatProps> = (props) => {
     const likeCount = props.likeCount;
     const getTitle = () => {
         switch (true) {

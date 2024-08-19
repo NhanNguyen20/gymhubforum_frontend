@@ -1,9 +1,9 @@
 import React from "react";
-import { PostStatsProp } from "@/types";
+import { PostStatsProps } from "@/types";
 import HeartOutlined from "@ant-design/icons/lib/icons/HeartOutlined";
 import { Button, Statistic } from "antd";
 
-const PostStats = ({ props }: { props: PostStatsProp }) => {
+const PostStats = ({ props }: { props: PostStatsProps }) => {
   const likeButton = () => {
     return <Button type="default" shape="circle" icon={<HeartOutlined />} />;
   };
