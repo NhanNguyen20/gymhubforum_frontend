@@ -1,17 +1,13 @@
-import { LatestPostProp } from "@/types";
+import { LatestPostItemProps } from "@/types";
 import { RetweetOutlined } from "@ant-design/icons";
 import React from "react";
 
-const LastestPostItem: React.FC = () => {
-
+const LastestPostItem: React.FC <LatestPostItemProps> = (props) => {
     return (
-        <div className={""}>
-            <span>
-                <strong>Alo</strong>
-            </span>
-            <p> <RetweetOutlined/> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</p>
-            <p>Date: {}</p>
-            <p>Box: {}</p>
+        <div className={props.className}>
+            <p> <RetweetOutlined/> {props.content}</p>
+            <p>Date: {props.date}</p>
+            <p>Box: {props.boxType}</p>
         </div>
     )
 }

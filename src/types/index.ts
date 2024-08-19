@@ -1,9 +1,9 @@
-export interface PostStatsProp {
+export interface PostStatsProps {
   likeCount: number;
   className?: string;
 }
 
-export interface ThreadStatsProp {
+export interface ThreadStatsProps {
   postCount: number;
   viewCount: number;
   likeCount?: number;
@@ -11,13 +11,13 @@ export interface ThreadStatsProp {
   className?: string;
 }
 
-export interface PictureProp {
+export interface PictureProps {
   blob: Blob | null;
   alt: string;
   className?: string;
 }
 
-export interface ProfileInfoProp {
+export interface ProfileInfoProps {
   // img : string;
   id: number;
   userName: string;
@@ -27,33 +27,36 @@ export interface ProfileInfoProp {
   joinDate: string;
   lastSeen: string;
   className?: string;
-  likeCount: number;
-  postCount: number;
-  followerCount: number;
 }
 
-export interface ProfileStatProp {
+export interface ProfileStatProps {
   likeCount: number;
   postCount: number;
   followerCount: number;
   className?: string;
 }
 
-export interface LatestPostProp {
-  title: string;
+export interface LatestPostItemProps {
   content: string;
   date: string;
   boxType: string;
   className?: string;
 }
 
-export interface TagsProp {
+export interface LatestPostProps {
+  latestPost: LatestPostItemProps;
+  title: string;
+  avatar: Blob | null;
+  tags: TagsProps;
+}
+
+export interface TagsProps {
   tags: string[];
   limit: number;
   className?: string;
 }
 
-export interface PostDetailProp {
+export interface PostDetailProps {
   threadId: string;
   postId: number;
   authorId: number;
@@ -62,7 +65,7 @@ export interface PostDetailProp {
   className?: string;
 }
 
-export interface ThreadInfoProp {
+export interface ThreadInfoProps {
   id: number;
   creationDateTime: string;
   likeCount: number;
@@ -76,7 +79,7 @@ export interface ThreadInfoProp {
   className?: string;
 }
 
-export interface PostInfoProp {
+export interface PostInfoProps {
   id: number;
   creationDateTime: string;
   likeCount: number;
@@ -89,6 +92,17 @@ export interface PostInfoProp {
   authorAvatar: string;
   name: string;
   className?: string;
+}
+
+export interface ProfilePreviewProps {
+  account: {
+    email: string;
+    username: string;
+    likeCount: number;
+    password: string;
+    bio: string;
+    avatar?: string;
+  };
 }
 
 export interface NavbarProps {

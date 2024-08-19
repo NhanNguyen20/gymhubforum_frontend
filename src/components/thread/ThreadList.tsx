@@ -1,9 +1,9 @@
 "use client";
 import { List, Avatar, Pagination } from "antd";
-import { ThreadInfoProp } from "@/types";
+import { ThreadInfoProps } from "@/types";
 import ThreadStats from "./thread-component/ThreadStats";
 
-const ThreadList = ({ threadList }: { threadList: ThreadInfoProp[] }) => {
+const ThreadList = ({ threadList }: { threadList: ThreadInfoProps[] }) => {
   return (
     <>
       <List

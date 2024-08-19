@@ -1,8 +1,8 @@
 import { Avatar, Space } from "antd";
-import { ProfileInfoProp } from "@/types";
+import { ProfileInfoProps } from "@/types";
 import { UserPostTitle } from "@/components/post/post-component/PostStats";
 
-const ProfileSimpleInfo = ({ user }: { user: ProfileInfoProp }) => {
+const ProfileSimpleInfo = ({ user }: { user: ProfileInfoProps }) => {
   return (
     <div className={user.className}>
       <Space wrap size={16}>

@@ -1,7 +1,7 @@
-import { PostDetailProp } from "@/types";
+import { PostDetailProps } from "@/types";
 import { Image } from "antd";
 
-const PostInfo = ({ postInfo }: { postInfo: PostDetailProp }) => {
+const PostInfo = ({ postInfo }: { postInfo: PostDetailProps }) => {
   return (
     <div className={postInfo.className}>
       <p className="mb-5 text-gray-500">

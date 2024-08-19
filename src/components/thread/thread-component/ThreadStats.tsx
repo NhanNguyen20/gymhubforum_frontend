@@ -1,9 +1,9 @@
 import React from "react";
-import { ThreadStatsProp } from "@/types";
+import { ThreadStatsProps } from "@/types";
 import { Statistic } from "antd";
 import { CommentOutlined, EyeOutlined, HeartOutlined } from "@ant-design/icons";
 
-const ThreadStats = ({ props }: { props: ThreadStatsProp }) => {
+const ThreadStats = ({ props }: { props: ThreadStatsProps }) => {
   return (
     <div className={props.className}>
       <Statistic
