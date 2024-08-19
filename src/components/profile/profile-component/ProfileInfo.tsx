@@ -1,8 +1,8 @@
 import React from "react";
-import { ProfileInfoProp } from "@/types";
+import { ProfileInfoProps } from "@/types";
 import Picture from "@/components/Picture";
 
-const ProfileInfo = ({ props }: { props: ProfileInfoProp }) => {
+const ProfileInfo = ({ props }: { props: ProfileInfoProps }) => {
   return (
     <div className={props.className}>
       <span>

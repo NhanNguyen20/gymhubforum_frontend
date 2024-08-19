@@ -1,7 +1,7 @@
-import { ThreadInfoProp } from "@/types";
+import { ThreadInfoProps } from "@/types";
 import { Flex, Tag } from "antd";
 
-const ThreadInfo = ({ props }: { props: ThreadInfoProp }) => {
+const ThreadInfo = ({ props }: { props: ThreadInfoProps }) => {
   return (
     <div>
       <h1 className="font-semibold text-4xl mb-3">{props.name}</h1>
