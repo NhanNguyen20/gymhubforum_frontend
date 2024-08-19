@@ -1,14 +1,41 @@
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
 import PostStats from "@/components/post/post-component/PostStats";
 import ThreadStats from "@/components/thread/thread-component/ThreadStats";
 import ProfileInfo from "@/components/profile/profile-component/ProfileInfo";
 import LastestPostItem from "@/components/profile-latest-post/LatestPostItem/LatestPostItem";
+import UserBanListTable from "@/components/mod/mod-component/UserBanListTable";
 
 export default function Home() {
   return (
     <main>
-      <NavBar />
+      <UserBanListTable/>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
+      <h1>Hello</h1>
       <h1>Hello</h1>
       <PostStats props={{ likeCount: 520, className: "IDK" }} />
       <br />
@@ -40,7 +67,6 @@ export default function Home() {
 
       <br />
       <LastestPostItem />
-      <Footer />
     </main>
   );
 }

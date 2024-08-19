@@ -90,3 +90,15 @@ export interface PostInfoProp {
   name: string;
   className?: string;
 }
+
+export interface NavbarProps {
+  title: string;
+  listOfTags: string[];
+  mID: number; 
+}
+
+export interface UserBanListTableProp {
+  username: string;
+  banReason: string;
+  banDuration: string;
+}
