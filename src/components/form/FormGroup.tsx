@@ -16,7 +16,13 @@ const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 
-const FormGroup = ({ formType }: { formType: string }) => {
+interface FormGroupProps {
+  formType: string;
+  onSubmit?: () => void;
+  classes?: string;
+}
+
+const FormGroup = ({ formType, classes, onSubmit }: FormGroupProps) => {
   const [formData, setFormData] = useState({});
 
   const handleInputChange = (field: string, newVal: string | string[]) => {
@@ -51,7 +57,7 @@ const FormGroup = ({ formType }: { formType: string }) => {
   const formFields = getFormFields();
 
   return (
-    <div>
+    <div className={classes}>
       <Form
         name="basic"
         initialValues={{ remember: true }}
@@ -59,7 +65,9 @@ const FormGroup = ({ formType }: { formType: string }) => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <h2 className="text-center capitalize">{formType}</h2>
+        <h2 className="text-center capitalize font-semibold text-2xl my-5">
+          {formType}
+        </h2>
         {formFields.map((field, index) => (
           <Form.Item label={field[0]} key={index}>
             <FormComponent
@@ -70,8 +78,8 @@ const FormGroup = ({ formType }: { formType: string }) => {
           </Form.Item>
         ))}
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
+        <Form.Item className="flex justify-center">
+          <Button type="primary" htmlType="submit" onClick={onSubmit}>
             Submit
           </Button>
         </Form.Item>
