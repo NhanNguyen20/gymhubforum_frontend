@@ -2,12 +2,12 @@ import PostStats from "@/components/post/post-component/PostStats";
 import ThreadStats from "@/components/thread/thread-component/ThreadStats";
 import ProfileInfo from "@/components/profile/profile-component/ProfileInfo";
 import LastestPostItem from "@/components/profile-latest-post/LatestPostItem/LatestPostItem";
-import UserBanListTable from "@/components/mod/mod-component/UserBanListTable";
+import UserBanListTable from "@/components/mod/UserBanListTable";
 
 export default function Home() {
   return (
     <main>
-      <UserBanListTable/>
+      <UserBanListTable />
       <h1>Hello</h1>
       <h1>Hello</h1>
       <h1>Hello</h1>

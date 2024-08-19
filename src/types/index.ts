@@ -1,9 +1,9 @@
-export interface PostStatsProps {
+export interface PostStatsProp {
   likeCount: number;
   className?: string;
 }
 
-export interface ThreadStatsProps {
+export interface ThreadStatsProp {
   postCount: number;
   viewCount: number;
   likeCount?: number;
@@ -11,13 +11,13 @@ export interface ThreadStatsProps {
   className?: string;
 }
 
-export interface PictureProps {
+export interface PictureProp {
   blob: Blob | null;
   alt: string;
   className?: string;
 }
 
-export interface ProfileInfoProps {
+export interface ProfileInfoProp {
   // img : string;
   id: number;
   userName: string;
@@ -27,36 +27,33 @@ export interface ProfileInfoProps {
   joinDate: string;
   lastSeen: string;
   className?: string;
+  likeCount: number;
+  postCount: number;
+  followerCount: number;
 }
 
-export interface ProfileStatProps {
+export interface ProfileStatProp {
   likeCount: number;
   postCount: number;
   followerCount: number;
   className?: string;
 }
 
-export interface LatestPostItemProps {
+export interface LatestPostProp {
+  title: string;
   content: string;
   date: string;
   boxType: string;
   className?: string;
 }
 
-export interface LatestPostProps {
-  latestPost: LatestPostItemProps;
-  title: string;
-  avatar: Blob | null;
-  tags: TagsProps;
-}
-
-export interface TagsProps {
+export interface TagsProp {
   tags: string[];
   limit: number;
   className?: string;
 }
 
-export interface PostDetailProps {
+export interface PostDetailProp {
   threadId: string;
   postId: number;
   authorId: number;
@@ -65,7 +62,7 @@ export interface PostDetailProps {
   className?: string;
 }
 
-export interface ThreadInfoProps {
+export interface ThreadInfoProp {
   id: number;
   creationDateTime: string;
   likeCount: number;
@@ -79,7 +76,7 @@ export interface ThreadInfoProps {
   className?: string;
 }
 
-export interface PostInfoProps {
+export interface PostInfoProp {
   id: number;
   creationDateTime: string;
   likeCount: number;
@@ -94,25 +91,27 @@ export interface PostInfoProps {
   className?: string;
 }
 
-export interface ProfilePreviewProps {
-  account: {
-    email: string;
-    username: string;
-    likeCount: number;
-    password: string;
-    bio: string;
-    avatar?: string;
-  };
+export enum ThreadCategory {
+  FLEXING = "FLEXING",
+  ADVISE = "ADVISE",
+  SUPPLEMENT = "SUPPLEMENT",
 }
 
-export interface NavbarProps {
-  title: string;
-  listOfTags: string[];
-  mID: number; 
+
+export interface ThreadReportProp {
+  id: number;
+  reason: string[];
+  threadCategory: ThreadCategory;
+  from: number;
+  to: number;
+  comment?: string;
 }
 
-export interface UserBanListTableProp {
-  username: string;
-  banReason: string;
-  banDuration: string;
+export interface PostReportProp {
+  id: number;
+  threadId: number;
+  reason: string[];
+  from: number;
+  to: number;
+  comment?: string;
 }
