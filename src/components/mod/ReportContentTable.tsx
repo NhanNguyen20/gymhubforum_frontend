@@ -1,10 +1,10 @@
 import ReportContentRow from "./ReportContentRow";
-import { ThreadReportProp } from "@/types";
+import { ThreadReportProps } from "@/types";
 
 const ReportContentTable = ({
   reportList,
 }: {
-  reportList: ThreadReportProp[];
+  reportList: ThreadReportProps[];
 }) => {
   return (
     <div>

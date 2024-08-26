@@ -1,9 +1,9 @@
-export interface PostStatsProp {
+export interface PostStatsProps {
   likeCount: number;
   className?: string;
 }
 
-export interface ThreadStatsProp {
+export interface ThreadStatsProps {
   postCount: number;
   viewCount: number;
   likeCount?: number;
@@ -11,13 +11,13 @@ export interface ThreadStatsProp {
   className?: string;
 }
 
-export interface PictureProp {
+export interface PictureProps {
   blob: Blob | null;
   alt: string;
   className?: string;
 }
 
-export interface ProfileInfoProp {
+export interface ProfileInfoProps {
   // img : string;
   id: number;
   userName: string;
@@ -32,14 +32,14 @@ export interface ProfileInfoProp {
   followerCount: number;
 }
 
-export interface ProfileStatProp {
+export interface ProfileStatProps {
   likeCount: number;
   postCount: number;
   followerCount: number;
   className?: string;
 }
 
-export interface LatestPostProp {
+export interface LatestPostProps {
   title: string;
   content: string;
   date: string;
@@ -47,13 +47,13 @@ export interface LatestPostProp {
   className?: string;
 }
 
-export interface TagsProp {
+export interface TagsProps {
   tags: string[];
   limit: number;
   className?: string;
 }
 
-export interface PostDetailProp {
+export interface PostDetailProps {
   threadId: string;
   postId: number;
   authorId: number;
@@ -62,7 +62,7 @@ export interface PostDetailProp {
   className?: string;
 }
 
-export interface ThreadInfoProp {
+export interface ThreadInfoProps {
   id: number;
   creationDateTime: string;
   likeCount: number;
@@ -76,7 +76,7 @@ export interface ThreadInfoProp {
   className?: string;
 }
 
-export interface PostInfoProp {
+export interface PostInfoProps {
   id: number;
   creationDateTime: string;
   likeCount: number;
@@ -98,7 +98,7 @@ export enum ThreadCategory {
 }
 
 
-export interface ThreadReportProp {
+export interface ThreadReportProps {
   id: number;
   reason: string[];
   threadCategory: ThreadCategory;
@@ -107,11 +107,41 @@ export interface ThreadReportProp {
   comment?: string;
 }
 
-export interface PostReportProp {
+export interface PostReportProps {
   id: number;
   threadId: number;
   reason: string[];
   from: number;
   to: number;
   comment?: string;
+}
+
+export interface LatestPostItemProps {
+  content: string;
+  date: string;
+  boxType: string;
+  className?: string;
+}
+
+export interface ProfilePreviewProps {
+  account: {
+    email: string;
+    username: string;
+    likeCount: number;
+    password: string;
+    bio: string;
+    avatar?: string;
+  };
+}
+
+export interface NavbarProps {
+  title: string;
+  listOfTags: string[];
+  mID: number;
+}
+
+export interface UserBanListTableProps {
+  username: string;
+  banReason: string;
+  banDuration: string;
 }

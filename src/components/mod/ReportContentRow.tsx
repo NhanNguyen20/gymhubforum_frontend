@@ -1,13 +1,13 @@
 import ModButtonGroup from "./ModButtonGroup";
-import { ThreadReportProp, PostReportProp } from "@/types";
+import { ThreadReportProps, PostReportProps } from "@/types";
 import Tags from "../Tag";
 
 const ReportContentRow = ({
   threadReport,
   postReport,
 }: {
-  threadReport?: ThreadReportProp;
-  postReport?: PostReportProp;
+  threadReport?: ThreadReportProps;
+  postReport?: PostReportProps;
 }) => {
   return (
     <div className="m-auto grid grid-cols-8 w-full p-3 bg-white mb-1">
