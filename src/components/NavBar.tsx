@@ -1,18 +1,17 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation"; // Use Next.js router for navigation
-import Link from "next/link";
 import { NavbarProps } from "@/types";
-import { SearchOutlined } from "@ant-design/icons";
+import Link from "next/link";
 import websiteLogo from "/public/images/logo.webp";
+import { SearchOutlined } from "@ant-design/icons";
+import { Input } from "antd";
 
 const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
   const [isSearchVisible, setSearchVisible] = useState(false);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null); // Allow only one tag
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
-  const router = useRouter(); // Initialize the router
 
   const toggleSearch = () => {
     if (isSearchVisible) {
@@ -24,14 +23,10 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
     }
   };
 
-  const handleTagClick = (tag: string) => {
-    setSelectedTag(tag);
-  };
-
-  const handleSearch = () => {
-    if (selectedTag) {
-      router.push(`/threads/${selectedTag}`); // Navigate to the selected tag's page
-    }
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
   };
 
   useEffect(() => {
@@ -103,6 +98,7 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
                   <option>Latest Threads</option>
                   <option>Most Likes</option>
                   <option>Trending Threads</option>
+                  <option>Something</option>
                 </select>
               </div>
               <div className="mb-4">
@@ -111,9 +107,9 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
                   {listOfTags.map((tag) => (
                     <button
                       key={tag}
-                      onClick={() => handleTagClick(tag)}
+                      onClick={() => toggleTag(tag)}
                       className={`px-3 py-1 rounded-full text-sm ${
-                        selectedTag === tag
+                        selectedTags.includes(tag)
                           ? "bg-orange-500 text-white"
                           : "bg-gray-200 text-gray-700"
                       }`}
@@ -124,10 +120,7 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
                 </div>
               </div>
               <div className="flex justify-end">
-                <button
-                  className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
-                  onClick={handleSearch}
-                >
+                <button className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
                   Search
                 </button>
               </div>

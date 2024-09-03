@@ -145,8 +145,3 @@ export interface UserBanListTableProps {
   banReason: string;
   banDuration: string;
 }
-
-export interface UserBanFormProps {
-  title: string;
-  joinDate: string;
-}

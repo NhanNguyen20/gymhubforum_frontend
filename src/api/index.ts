@@ -42,17 +42,6 @@ export async function fetchBoxThreads(category: string | undefined, limit?: numb
     }
 }
 
-// fetch threads by tag
-export async function fetchThreadsByTag(tag: string, limit: number = 10, page: number = 0) {
-    try {
-        const response = await axios.get(`/thread/${tag}?limit=${limit}&page=${page}`);
-        return response.data; // Return the fetched data
-    } catch (error) {
-        console.error("Error fetching threads by tag:", error);
-        throw error; // Re-throw the error to handle it in the calling function
-    }
-}
-
 // fetch all threads of a member
 export async function fetchThreadsUser(id: number, limit: number, page: number) {
     try {
