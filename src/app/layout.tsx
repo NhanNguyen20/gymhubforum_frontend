@@ -24,7 +24,7 @@ export default function RootLayout({
         <Navbar
           title = "Nazuna Nanakuza"
           mID = {100000023982942}
-          listOfTags={["Health", "Fitness", "Workout","DaveTheMagicalCheeseWizard"]}
+          listOfTags={["supplement", "flexing","advice"]}
         />
         <div className="flex-1 py-14">
           {children}
