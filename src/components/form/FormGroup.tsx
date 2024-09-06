@@ -11,6 +11,7 @@ import { useState } from "react";
 import type { FormProps } from "antd";
 import { Form, Button } from "antd";
 import FormComponent from "./FormComponent";
+import { handleForm } from "@/api";
 
 const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -34,6 +35,7 @@ const FormGroup = ({ formType, classes, onSubmit }: FormGroupProps) => {
 
   const handleSubmit = () => {
     console.log(formData);
+    handleForm(formType, formData);
   };
 
   const getFormFields = () => {

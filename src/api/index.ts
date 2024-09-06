@@ -24,32 +24,16 @@ export async function login(data: any) {
     console.log(res.data)
 }
 
-export async function refreshToken() {
-    // auth/refresh-token
-}
-
 //// ===== THREAD ===== ////
 // fetch all threads of a box (category)
-export async function fetchBoxThreads(category: string | undefined, limit?: number, page?: number) {
+export async function fetchBoxThreads(category: string | any) {
     try {
-        let res;
-        if (limit) res = await axios.get(`thread/${category}?limit=${limit}&page=${page}`);
-        else res = await axios.get(`thread/${category}`);
-        if (category === 'suggested') return res.data['By Algorithm'];
+        const res = await axios.get(`thread/${category.toLowerCase()}`);
+        if (category.toLowerCase() === 'suggested') return res.data['By PostCreation'];
+        // console.log(res.status, res.data)
         return res.data;
     } catch (error) {
         console.log(error)
-    }
-}
-
-// fetch threads by tag
-export async function fetchThreadsByTag(tag: string, limit: number = 10, page: number = 0) {
-    try {
-        const response = await axios.get(`/thread/${tag}?limit=${limit}&page=${page}`);
-        return response.data; // Return the fetched data
-    } catch (error) {
-        console.error("Error fetching threads by tag:", error);
-        throw error; // Re-throw the error to handle it in the calling function
     }
 }
 
@@ -57,7 +41,6 @@ export async function fetchThreadsByTag(tag: string, limit: number = 10, page: n
 export async function fetchThreadsUser(id: number, limit: number, page: number) {
     try {
         const res = await axios.get(`thread/user-${id}?limit=${limit}&page=${page}`);
-        console.log(`thread/user-${id}?limit=${limit}&page=${page}`, res.status, res.data)
         return res.data;
     } catch (error) {
         console.log(error)
@@ -66,8 +49,20 @@ export async function fetchThreadsUser(id: number, limit: number, page: number) 
 
 export async function createThread(data: any) {
     try {
-        const res = await axios.post(``);
+        const res = await axios.post(`thread/new`, data);
+        console.log(res.status)
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function fetchThreadByID(id: number) {
+    try {
+        const res = await axios.get(`thread/${id}`);
+        console.log(res.data)
+        return res.data;
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -84,19 +79,18 @@ export async function fetchPostsUser(limit: number, page: number) {
 }
 
 // fetch all posts of a thread
-export async function fetchPostsThread(id: number, limit?: number, page?: number) {
+export async function fetchPostsThread(id: number) {
     try {
-        const res = await axios.get(`post/thread-${id}?limit=${limit}&page=${page}`);
-        // console.log(`post/thread-${threadID}?limit=${limit}&page=${page}`, res.status, res.data)
+        const res = await axios.get(`post/thread-${id}?limit=10&page=0`);
         return res.data;
     } catch (error) {
         console.log(error)
     }
 }
 
-export async function createPost(threadID: number, data: any) {
+export async function createPost(data: any) {
     try {
-        const res = await axios.post(`post/new/thread-${threadID}`, data);
+        const res = await axios.post(`post/new`, data);
         console.log(res.status);
     } catch (error) {
         console.log(error)
@@ -167,6 +161,34 @@ export async function modUpdateProfile(id: number, data: any) {
 export async function banMember(modID: number, memberID: number, duration: number, reason: string) {
     try {
         const res = await axios.patch(`mod/dashboard/mod-${modID}/ban/member-${memberID}?duration=${duration}&reason=${reason}`);
+        console.log(res.status)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+//// ===== TAG ===== ////
+export async function createTag(tag: string) {
+    try {
+        const res = await axios.post(`tag/create?tagName=${tag}`);
+        console.log(res.status);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function updateTag(id: number, newName: string) {
+    try {
+        const res = await axios.put(`tag/update/${id}?newTagName=${newName}`);
+        console.log(res.status)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function deleteTag(id: number) {
+    try {
+        const res = await axios.delete(`tag/delete/${id}`);
         console.log(res.status)
     } catch (error) {
         console.log(error)

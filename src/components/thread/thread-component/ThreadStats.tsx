@@ -5,19 +5,17 @@ import { CommentOutlined, EyeOutlined, HeartOutlined } from "@ant-design/icons";
 
 const ThreadStats = ({ props }: { props: ThreadStatsProps }) => {
   return (
-    <div className={props.className}>
+    <div className="grid grid-cols-4 justify-items-center text-center">
       <Statistic
         title={<EyeOutlined />}
         value={props.viewCount}
         valueStyle={{ fontSize: "16px" }}
       />
-      {props.likeCount && (
-        <Statistic
-          title={<HeartOutlined />}
-          value={props.likeCount}
-          valueStyle={{ fontSize: "16px" }}
-        />
-      )}
+      <Statistic
+        title={<HeartOutlined />}
+        value={props.likeCount}
+        valueStyle={{ fontSize: "16px" }}
+      />
       <Statistic
         title={<CommentOutlined />}
         value={props.postCount}

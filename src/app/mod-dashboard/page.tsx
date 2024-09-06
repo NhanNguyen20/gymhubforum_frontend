@@ -1,8 +1,8 @@
-import React from 'react';
-import ReportContentTable from '@/components/mod/ReportContentTable';
-import UserBanListTable from '@/components/mod/UserBanListTable';
+import React from "react";
+import ReportContentTable from "@/components/mod/ReportContentTable";
+import UserBanListTable from "@/components/mod/UserBanListTable";
 import { ThreadReportProps, ThreadCategory } from "@/types";
-import UserBanForm from '@/components/mod/UserBanForm';
+import UserBanForm from "@/components/mod/UserBanForm";
 
 export default function ModDashboard() {
   const reportList: ThreadReportProps[] = [
@@ -12,12 +12,12 @@ export default function ModDashboard() {
       threadCategory: ThreadCategory.FLEXING,
       from: 1620000000000,
       to: 1620086400000,
-      comment: "This post violates community guidelines."
+      comment: "This post violates community guidelines.",
     },
     {
       id: 2,
       reason: ["Harassment"],
-      threadCategory: ThreadCategory.ADVISE,
+      threadCategory: ThreadCategory.ADVICE,
       from: 1620050000000,
       to: 1620126400000,
     },
@@ -27,7 +27,7 @@ export default function ModDashboard() {
       threadCategory: ThreadCategory.SUPPLEMENT,
       from: 1620100000000,
       to: 1620186400000,
-      comment: "This information is misleading and false."
+      comment: "This information is misleading and false.",
     },
     {
       id: 4,
@@ -35,12 +35,12 @@ export default function ModDashboard() {
       threadCategory: ThreadCategory.FLEXING,
       from: 1620150000000,
       to: 1620236400000,
-      comment: "Contains offensive language towards a group of people."
+      comment: "Contains offensive language towards a group of people.",
     },
   ];
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="container mx-auto">
       {/* Report Content Section */}
       <div className="mb-16">
         <h2 className="text-2xl font-bold mb-6">Report Content Processing</h2>
@@ -51,7 +51,7 @@ export default function ModDashboard() {
       <div className="mb-16">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">User Ban Lists</h2>
-          
+
           {/* The UserBanForm component now manages its own modal */}
           <UserBanForm title="Gymmer" joinDate="January 1, 2023" />
         </div>

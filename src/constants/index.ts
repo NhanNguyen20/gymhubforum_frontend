@@ -6,9 +6,9 @@ export const loginFormFields = [
 ]
 
 export const signupFormFields = [
-    ['Email', 'email', 'email', '', 'Enter your email'],
-    ['Username', 'text', 'userName', '', 'Enter your username'],
+    ['Username', 'text', 'username', '', 'Enter your username'],
     ['Password', 'password', 'password', '', 'Enter your password'],
+    ['Email', 'email', 'email', '', 'Enter your email'],
 ]
 
 export const banMemberFormFields = [

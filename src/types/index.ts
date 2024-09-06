@@ -18,7 +18,6 @@ export interface PictureProps {
 }
 
 export interface ProfileInfoProps {
-  // img : string;
   id: number;
   userName: string;
   email: string;
@@ -30,6 +29,14 @@ export interface ProfileInfoProps {
   likeCount: number;
   postCount: number;
   followerCount: number;
+}
+
+export interface SimpleProfileProps {
+  authorId: string;
+  authorName: string;
+  authorAvatar: string;
+  likeCount: number;
+  className?: string;
 }
 
 export interface ProfileStatProps {
@@ -54,11 +61,10 @@ export interface TagsProps {
 }
 
 export interface PostDetailProps {
-  threadId: string;
   postId: number;
-  authorId: number;
   content: string;
-  encodedImages: string[];
+  encodedImage: string;
+  creationDateTime: string;
   className?: string;
 }
 
@@ -72,7 +78,7 @@ export interface ThreadInfoProps {
   authorName: string;
   authorId: string;
   authorAvatar: string;
-  name: string;
+  title: string;
   className?: string;
 }
 
@@ -81,20 +87,24 @@ export interface PostInfoProps {
   creationDateTime: string;
   likeCount: number;
   viewCount: number;
-  beenReport: boolean;
+  toxicStatus: string;
+  resolveStatus: boolean;
   beenLiked: boolean;
   postCount: number;
   authorName: string;
   authorId: string;
   authorAvatar: string;
   name: string;
+  reason: string;
+  encodedImage: string;
   className?: string;
 }
 
 export enum ThreadCategory {
   FLEXING = "FLEXING",
-  ADVISE = "ADVISE",
+  ADVICE = "ADVICE",
   SUPPLEMENT = "SUPPLEMENT",
+  SUGGESTED = "SUGGESTED",
 }
 
 
@@ -144,9 +154,4 @@ export interface UserBanListTableProps {
   username: string;
   banReason: string;
   banDuration: string;
-}
-
-export interface UserBanFormProps {
-  title: string;
-  joinDate: string;
 }

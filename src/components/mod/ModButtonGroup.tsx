@@ -22,7 +22,7 @@ const ModButtonGroup = ({
 
   return (
     <>
-      <Flex gap="small" wrap className="flex justify-between px-7">
+      <Flex gap="small" wrap className="flex justify-between">
         <Button
           type="primary"
           style={{ backgroundColor: "#1FB505", borderColor: "#1FB505" }}
