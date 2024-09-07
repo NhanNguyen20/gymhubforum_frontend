@@ -1,5 +1,9 @@
-export default function ProfileUpdate({}) {
+import ProfileUpdate from "@/components/profile-update/ProfileUpdate"
+
+export default function ProfileUpdatePage({}) {
   return (
-    <>Member Profile Update</>
+    <div>
+      <ProfileUpdate></ProfileUpdate>
+    </div>
   )
 };

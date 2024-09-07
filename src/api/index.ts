@@ -172,3 +172,25 @@ export async function banMember(modID: number, memberID: number, duration: numbe
         console.log(error)
     }
 }
+
+export async function fetchProfileHeaderInfo(id : number) {
+    return axios.get(`/member/${id}/info`).then(res => res.data).catch(err => console.log(err));
+}
+
+export async function fetchProfileHeaderStat(id : number) {
+    return axios.get(`/member/${id}/stat`).then(res => res.data).catch(err => console.log(err));
+}
+
+
+export async function fetchProfileLatestPost(id : number, page: number, pageSize: number) {
+    return axios.get(`/member/${id}/post`, {
+        params : {
+            page : page,
+            pageSize : pageSize
+        }
+    }).then(res => res.data).catch(err => console.log(err));
+}
+
+export async function fetchProfilePreview(id : number) {
+    return axios.get(`/update/${id}`).then(res => res.data).catch(err => console.log(err));
+}

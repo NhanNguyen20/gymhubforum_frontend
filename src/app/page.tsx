@@ -1,7 +1,9 @@
 import PostStats from "@/components/post/post-component/PostStats";
 import ThreadStats from "@/components/thread/thread-component/ThreadStats";
-import ProfileInfo from "@/components/profile/profile-component/ProfileInfo";
+import ProfileInfo from "@/components/ProfileCard/ProfileCardComponent/ProfileInfo";
 import UserBanListTable from "@/components/mod/UserBanListTable";
+import ProfileLatestPost from "@/components/profile-latest-post/ProfileLatestPost";
+import ProfileCard from "@/components/ProfileCard/ProfileCard";
 import ReportContentTable from "@/components/mod/ReportContentTable";
 import { ThreadReportProps, ThreadCategory } from "@/types";
 

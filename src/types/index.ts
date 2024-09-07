@@ -19,17 +19,17 @@ export interface PictureProps {
 
 export interface ProfileInfoProps {
   // img : string;
-  id: number;
-  userName: string;
-  email: string;
-  bio: string;
-  stringAvatar?: string;
-  joinDate: string;
-  lastSeen: string;
-  className?: string;
-  likeCount: number;
-  postCount: number;
-  followerCount: number;
+  profileInfo: {
+    id: number;
+    userName: string;
+    email: string;
+    likeCount: number;
+    bio: string;
+    stringAvatar?: string;
+    joinDate: string;
+    lastSeen: string;
+    className?: string;
+  };
 }
 
 export interface ProfileStatProps {
@@ -40,6 +40,8 @@ export interface ProfileStatProps {
 }
 
 export interface LatestPostProps {
+  tags: TagsProps;
+  avatar: Blob | null;
   title: string;
   content: string;
   date: string;
@@ -58,7 +60,7 @@ export interface PostDetailProps {
   postId: number;
   authorId: number;
   content: string;
-  encodedImages: string[];
+  encodedImages?: string[];
   className?: string;
 }
 
@@ -96,7 +98,6 @@ export enum ThreadCategory {
   ADVISE = "ADVISE",
   SUPPLEMENT = "SUPPLEMENT",
 }
-
 
 export interface ThreadReportProps {
   id: number;

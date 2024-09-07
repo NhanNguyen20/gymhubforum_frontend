@@ -17,7 +17,6 @@ const Updater: React.FC<UpdaterProps> = ({ onFinish }) => {
   };
 
   return (
-    <Card  bordered={false}>
       <Form layout="vertical" onFinish={onFinish}>
         <Form.Item
           label="New Password"
@@ -36,7 +35,7 @@ const Updater: React.FC<UpdaterProps> = ({ onFinish }) => {
         </Form.Item>
 
         <Form.Item label="Write your bio" name="bio">
-          <Input.TextArea rows={4} />
+          <Input.TextArea rows={5} />
         </Form.Item>
 
         <Form.Item label="Choose avatar" name="avatar">
@@ -45,13 +44,12 @@ const Updater: React.FC<UpdaterProps> = ({ onFinish }) => {
           </Upload>
         </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
+        <Form.Item style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginRight:'20px', marginBottom:'0'}}>
+          <Button type="primary" htmlType="submit" >
             Update
           </Button>
         </Form.Item>
       </Form>
-    </Card>
   );
 };
 
