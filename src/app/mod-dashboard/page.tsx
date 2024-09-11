@@ -1,61 +1,64 @@
-import React from "react";
+"use client"
+
+import React, { useEffect, useState } from "react";
 import ReportContentTable from "@/components/mod/ReportContentTable";
 import UserBanListTable from "@/components/mod/UserBanListTable";
-import { ThreadReportProps, ThreadCategory } from "@/types";
 import UserBanForm from "@/components/mod/UserBanForm";
+import { fetchModDashboard } from "@/api"; // Import the API function
 
 export default function ModDashboard() {
-  const reportList: ThreadReportProps[] = [
-    {
-      id: 1,
-      reason: ["Spam", "Offensive Content"],
-      threadCategory: ThreadCategory.FLEXING,
-      from: 1620000000000,
-      to: 1620086400000,
-      comment: "This post violates community guidelines.",
-    },
-    {
-      id: 2,
-      reason: ["Harassment"],
-      threadCategory: ThreadCategory.ADVICE,
-      from: 1620050000000,
-      to: 1620126400000,
-    },
-    {
-      id: 3,
-      reason: ["Misinformation"],
-      threadCategory: ThreadCategory.SUPPLEMENT,
-      from: 1620100000000,
-      to: 1620186400000,
-      comment: "This information is misleading and false.",
-    },
-    {
-      id: 4,
-      reason: ["Hate Speech"],
-      threadCategory: ThreadCategory.FLEXING,
-      from: 1620150000000,
-      to: 1620236400000,
-      comment: "Contains offensive language towards a group of people.",
-    },
-  ];
+  // State to hold fetched data
+  const [pendingPosts, setPendingPosts] = useState([]);
+  const [pendingThreads, setPendingThreads] = useState([]);
+  const [bannedMembers, setBannedMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch the mod dashboard data when the component mounts
+  useEffect(() => {
+    async function loadDashboardData() {
+      setLoading(true);
+      try {
+        const modId = 1; // Modify as needed
+        const data = await fetchModDashboard(modId);
+        setPendingPosts(data.pendingPosts || []);
+        setPendingThreads(data.pendingThreads || []);
+        setBannedMembers(data.bannedMembers || []);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadDashboardData();
+  }, []); // Empty array means it runs once on mount
+
+  // Show loading state while fetching data
+  if (loading) {
+    return <div>Loading mod dashboard...</div>;
+  }
 
   return (
-    <div className="container mx-auto">
-      {/* Report Content Section */}
-      <div className="mb-16">
-        <h2 className="text-2xl font-bold mb-6">Report Content Processing</h2>
-        <ReportContentTable reportList={reportList} />
+    <div className="container mx-auto p-8" style={{ maxWidth: "100vw" }}>
+      {/* Pending Posts Section */}
+      <div className="mb-20">
+        <h2 className="text-2xl font-bold mb-6">Pending Posts</h2>
+        <ReportContentTable reportList={pendingPosts} />
       </div>
 
-      {/* User Ban List Section */}
+      {/* Pending Threads Section */}
+      <div className="mb-20">
+        <h2 className="text-2xl font-bold mb-6">Pending Threads</h2>
+        <ReportContentTable reportList={pendingThreads} />
+      </div>
+
+      {/* Banned Members Section */}
       <div className="mb-16">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">User Ban Lists</h2>
-
-          {/* The UserBanForm component now manages its own modal */}
-          <UserBanForm title="Gymmer" joinDate="January 1, 2023" />
+          <h2 className="text-2xl font-bold">Banned Members</h2>
+          <UserBanForm />
         </div>
-        <UserBanListTable />
+        <UserBanListTable bannedMembers={bannedMembers} />
       </div>
     </div>
   );

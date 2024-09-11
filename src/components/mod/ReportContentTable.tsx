@@ -10,9 +10,7 @@ const ReportContentTable = ({
     <div>
       <div className="overflow-x-auto shadow-md sm:rounded-lg bg-gray-100 p-4">
         <div className="m-auto grid grid-cols-8 w-full h-16 bg-gray-200 content-center text-center mb-3">
-          <div className="col-span-1 w-full h-full border-[#DFDFE1]">
-            Content ID
-          </div>
+          <div className="col-span-1 w-full h-full border-[#DFDFE1]">Content ID</div>
           <div className="col-span-3 w-full border-[#DFDFE1]">Content</div>
           <div className="col-span-2 w-full border-[#DFDFE1]">Reasons</div>
           <div className="col-span-2 w-full">Resolve Actions</div>
@@ -20,8 +18,6 @@ const ReportContentTable = ({
         {reportList.map((content, index) => (
           <ReportContentRow key={index} threadReport={content} />
         ))}
-        <ReportContentRow />
-        <ReportContentRow />
       </div>
     </div>
   );

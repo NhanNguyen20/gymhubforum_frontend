@@ -138,16 +138,6 @@ export async function fetchModProfile(id: number, username: string) {
     }
 }
 
-export async function fetchModDashboard(id: number) {
-    try {
-        const res = await axios.get(`mod/dashboard/mod-${id}`);
-        console.log(res.status, res.data.pendingPosts, res)
-        return res.data;
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 export async function modUpdateProfile(id: number, data: any) {
     try {
         const res = await axios.put(`mod/update/mod-${id}`, data);
@@ -158,12 +148,54 @@ export async function modUpdateProfile(id: number, data: any) {
     }
 }
 
+//// ===== MOD DASHBOARD PAGE ===== ////
+export async function resolvePendingThread(modID: number, threadID: number, category: string, newToxicStatus: string, reason: string) {
+    try {
+        const res = await axios.patch(`mod/mod-${modID}/resolvePendingThread-${threadID}?category=${category}&newToxicStatus=${newToxicStatus}&reason=${reason}`);
+        console.log(res.status);
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function resolvePendingPost(modID: number, postID: number, threadID: number, newToxicStatus: string, reason: string) {
+    try {
+        const res = await axios.patch(`mod/mod-${modID}/resolvePendingPost-${postID}?threadId=${threadID}&newToxicStatus=${newToxicStatus}&reason=${reason}`);
+        console.log(res.status);
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export async function banMember(modID: number, memberID: number, duration: number, reason: string) {
     try {
         const res = await axios.patch(`mod/dashboard/mod-${modID}/ban/member-${memberID}?duration=${duration}&reason=${reason}`);
-        console.log(res.status)
+        console.log(res.status);
+        return res.data;
     } catch (error) {
-        console.log(error)
+        console.log(error);
+    }
+}
+
+export async function fetchModDashboard(id: number) {
+    try {
+        const res = await axios.get(`mod/dashboard/mod-${id}`);
+        console.log(res.status, res.data);
+        return res.data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function unbanMember(modID: number, memberID: number) {
+    try {
+        const res = await axios.delete(`mod/dashboard/mod-${modID}/unBan/member-${memberID}`);
+        console.log(res.status);
+        return res.data;
+    } catch (error) {
+        console.log(error);
     }
 }
 

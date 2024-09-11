@@ -70,9 +70,16 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
           </div>
         </Link>
         <div className="flex space-x-4 relative">
+          {/* User Profile Link */}
           <Link href={`/profile/${mID}`}>
             <span className="text-white">{title}</span>
           </Link>
+          
+          {/* Dashboard Link */}
+          <Link href="/mod-dashboard">
+            <span className="text-white ml-4">Dashboard</span>
+          </Link>
+
           <button
             onClick={toggleSearch}
             className="text-white flex items-center"
