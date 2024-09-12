@@ -1,14 +1,30 @@
-import { AxiosResponse } from "axios";
 import axios from "./axios";
+
+const options = {
+    withCredentials: true
+};
 
 // call other functions based on the form type
 export async function handleForm(formType: string, data: any) {
+    let res = null;
     switch (formType) {
         case "signup":
-            signup(data);
+            res = signup(data);
+            break;
         case "login":
-            login(data);
+            res = login(data);
+            break;
+        case "create post":
+            res = createPost(data);
+            break;
+        case "create thread":
+            res = createThread(data);
+            break;
+        case "report post":
+            // res = reportPost(data);
+            break;
     }
+    return res;
 }
 
 //// ===== AUTH ===== ////
@@ -18,10 +34,24 @@ export async function signup(data: any) {
 }
 
 export async function login(data: any) {
-    const res = await axios.post("/auth/login", data)
-    const token = res.data.accessToken;
-    console.log(token)
-    console.log(res.data)
+    try {
+        const res = await axios.post("/auth/login", data)
+        if (res.status == 200) {
+            const mem = fetchMember(data.username);
+            return mem;
+        }
+    } catch (error) {
+        return 403 || error;
+    }
+}
+
+export async function logOut() {
+    try {
+        const res = await axios.post('auth/logout');
+        return res.status;
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export async function refreshToken() {
@@ -30,13 +60,19 @@ export async function refreshToken() {
 
 //// ===== THREAD ===== ////
 // fetch all threads of a box (category)
-export async function fetchBoxThreads(category: string | undefined, limit?: number, page?: number) {
+export async function fetchBoxThreads(category: string | any) {
     try {
-        let res;
-        if (limit) res = await axios.get(`thread/${category}?limit=${limit}&page=${page}`);
-        else res = await axios.get(`thread/${category}`);
-        if (category === 'suggested') return res.data['By Algorithm'];
+        const res = await axios.get(`thread/${category.toLowerCase()}`);
         return res.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function fetchBoxThreadsSuggest(category: string) {
+    try {
+        const res = await axios.get(`thread/suggested`);
+        return res.data[category];
     } catch (error) {
         console.log(error)
     }
@@ -66,8 +102,10 @@ export async function fetchThreadsUser(id: number, limit: number, page: number) 
 
 export async function createThread(data: any) {
     try {
-        const res = await axios.post(``);
+        const res = await axios.post(`thread/new`, data, options);
+        console.log(res.status, res.data)
     } catch (error) {
+        console.error(error)
     }
 }
 
@@ -94,10 +132,11 @@ export async function fetchPostsThread(id: number, limit?: number, page?: number
     }
 }
 
-export async function createPost(threadID: number, data: any) {
+export async function createPost(data: any) {
     try {
-        const res = await axios.post(`post/new/thread-${threadID}`, data);
-        console.log(res.status);
+        data.threadId = parseInt(data.threadId)
+        const res = await axios.post(`post/new`, data, options);
+        console.log(res.status, res.data);
     } catch (error) {
         console.log(error)
     }
@@ -173,24 +212,24 @@ export async function banMember(modID: number, memberID: number, duration: numbe
     }
 }
 
-export async function fetchProfileHeaderInfo(id : number) {
+export async function fetchProfileHeaderInfo(id: number) {
     return axios.get(`/member/${id}/info`).then(res => res.data).catch(err => console.log(err));
 }
 
-export async function fetchProfileHeaderStat(id : number) {
+export async function fetchProfileHeaderStat(id: number) {
     return axios.get(`/member/${id}/stat`).then(res => res.data).catch(err => console.log(err));
 }
 
 
-export async function fetchProfileLatestPost(id : number, page: number, pageSize: number) {
+export async function fetchProfileLatestPost(id: number, page: number, pageSize: number) {
     return axios.get(`/member/${id}/post`, {
-        params : {
-            page : page,
-            pageSize : pageSize
+        params: {
+            page: page,
+            pageSize: pageSize
         }
     }).then(res => res.data).catch(err => console.log(err));
 }
 
-export async function fetchProfilePreview(id : number) {
+export async function fetchProfilePreview(id: number) {
     return axios.get(`/update/${id}`).then(res => res.data).catch(err => console.log(err));
 }

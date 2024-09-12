@@ -94,9 +94,11 @@ export interface PostInfoProps {
 }
 
 export enum ThreadCategory {
-  FLEXING = "FLEXING",
-  ADVISE = "ADVISE",
-  SUPPLEMENT = "SUPPLEMENT",
+  FLEXING = "flexing",
+  ADVICE = "advice",
+  SUPPLEMENT = "supplement",
+  SUGGESTED = "suggested",
+  LASTPOST = "lastpost"
 }
 
 export interface ThreadReportProps {
@@ -150,4 +152,21 @@ export interface UserBanListTableProps {
 export interface UserBanFormProps {
   title: string;
   joinDate: string;
+}
+
+export interface MemberProps {
+  id: number,
+  userName: string,
+  email: string,
+  title: string,
+  bio: string,
+  avatar: string,
+  joinDate: Date,
+  likeCount: number | 0,
+  postCount: number,
+  followerCount: number,
+  followingCount: number,
+  followerIds: number[],
+  followingIds: number[],
+  banUntilDate: Date
 }
