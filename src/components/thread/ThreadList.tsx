@@ -31,8 +31,9 @@ const ThreadList = ({ threadList }: { threadList: ThreadInfoProps[] }) => {
                 postCount: item.postCount,
                 viewCount: item.viewCount,
                 likeCount: item.likeCount,
-                lastUpload: item.creationDateTime,
-                className: "grid grid-cols-4 text-center pr-10 max-w-96",
+                lastUpload: item.creationDateTime.toString().slice(0, 7),
+                className:
+                  "grid grid-cols-4 justify-items-center text-center pr-5",
               }}
             />
           </List.Item>

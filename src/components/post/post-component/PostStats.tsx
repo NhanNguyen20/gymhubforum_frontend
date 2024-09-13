@@ -19,4 +19,5 @@ const PostStats = ({ props }: { props: PostStatsProps }) => {
   );
 };
 
+
 export default PostStats;

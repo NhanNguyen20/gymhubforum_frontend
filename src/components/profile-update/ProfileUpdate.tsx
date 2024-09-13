@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Layout, Divider } from 'antd';
-import Preview from './profile-update-component/Preview';
+  import Preview from './profile-update-component/Preview';
 import Updater from './profile-update-component/Updater';
-
-const { Content, Sider } = Layout;
+import { ProfilePreviewProps } from '@/types';
+import Layout from 'antd/es/layout/layout';
+import Row from 'antd/es/grid/row';
+import Col from 'antd/es/grid/col';
+import { useState } from 'react';
 
 interface Account {
   email: string;
@@ -17,7 +18,7 @@ interface Account {
 }
 
 const ProfileUpdate: React.FC = () => {
-  const [account, setAccount] = useState<Account>({
+  const [account, setAccount] = useState<ProfilePreviewProps["account"]>({
     email: 'example@gmail.com',
     username: 'Michelle',
     likeCount: 100,
@@ -37,15 +38,20 @@ const ProfileUpdate: React.FC = () => {
   };
 
   return (
-    <Layout style={{ background: '#fff', padding: '24px', borderRadius: '10px' }}>
-      <Sider width={400} style={{ background: '#fff' }}>
-        <Preview account={account} />
-      </Sider>
-      <Divider type="vertical" style={{ height: '100%' }} />
+    <Layout style={{ background: '#fff', borderRadius: '10px', width: '75%', height: '80%',  margin: 'auto', boxShadow: '0 10px 20px rgba(0, 0, 0, 0.15)', marginTop:'40px'}}>
+      <Row>
+        <Col span={4} style={{padding:'10px'}}>
+          <img src="https://picsum.photos/200" alt="" style={{borderRadius:'5px', margin:'auto'}}/>
+        </Col>
 
-      <Content style={{ padding: '24px' }}>
-        <Updater onFinish={onFinish} />
-      </Content>
+        <Col span={10} style={{padding:'20px'}}>
+        <Preview account={account}/>
+        </Col>
+
+        <Col span={10} style={{padding:'20px'}}>
+          <Updater onFinish={onFinish} />
+        </Col>
+      </Row>
     </Layout>
   );
 };

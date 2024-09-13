@@ -1,6 +1,6 @@
 import { Avatar, Space } from "antd";
-import { SimpleProfileProps } from "@/types";
-import { getPostTitle } from "@/utils";
+import { ProfileInfoProps } from "@/types";
+import { getTitle } from "@/utils";
 
 const ProfileSimpleInfo = ({ props }: { props: SimpleProfileProps }) => {
   return (
@@ -16,8 +16,8 @@ const ProfileSimpleInfo = ({ props }: { props: SimpleProfileProps }) => {
           }
         />
       </Space>
-      <p className="font-extrabold text-xl">{props.authorName || "unknown"}</p>
-      <p>{getPostTitle(props.likeCount)}</p>
+      <p className="font-extrabold text-xl">{user.userName || "unknown"}</p>
+      <p>{getTitle(user.likeCount)}</p>;
     </div>
   );
 };

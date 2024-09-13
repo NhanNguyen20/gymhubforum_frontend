@@ -18,17 +18,18 @@ export interface PictureProps {
 }
 
 export interface ProfileInfoProps {
-  id: number;
-  userName: string;
-  email: string;
-  bio: string;
-  stringAvatar?: string;
-  joinDate: string;
-  lastSeen: string;
-  className?: string;
-  likeCount: number;
-  postCount: number;
-  followerCount: number;
+  // img : string;
+  profileInfo: {
+    id: number;
+    userName: string;
+    email: string;
+    likeCount: number;
+    bio: string;
+    stringAvatar?: string;
+    joinDate: string;
+    lastSeen: string;
+    className?: string;
+  };
 }
 
 export interface SimpleProfileProps {
@@ -47,6 +48,8 @@ export interface ProfileStatProps {
 }
 
 export interface LatestPostProps {
+  tags: TagsProps;
+  avatar: Blob | null;
   title: string;
   content: string;
   date: string;
@@ -63,8 +66,7 @@ export interface TagsProps {
 export interface PostDetailProps {
   postId: number;
   content: string;
-  encodedImage: string;
-  creationDateTime: string;
+  encodedImages?: string[];
   className?: string;
 }
 
@@ -101,12 +103,12 @@ export interface PostInfoProps {
 }
 
 export enum ThreadCategory {
-  FLEXING = "FLEXING",
-  ADVICE = "ADVICE",
-  SUPPLEMENT = "SUPPLEMENT",
-  SUGGESTED = "SUGGESTED",
+  FLEXING = "flexing",
+  ADVICE = "advice",
+  SUPPLEMENT = "supplement",
+  SUGGESTED = "suggested",
+  LASTPOST = "lastpost"
 }
-
 
 export interface ThreadReportProps {
   id: number;
@@ -124,6 +126,13 @@ export interface PostReportProps {
   from: number;
   to: number;
   comment?: string;
+}
+
+export interface PendingThreadReportProps {
+  id: number;
+  reason: string[];
+  threadCategory: string;
+  comment: string;
 }
 
 export interface LatestPostItemProps {
@@ -154,4 +163,26 @@ export interface UserBanListTableProps {
   username: string;
   banReason: string;
   banDuration: string;
+}
+
+export interface UserBanFormProps {
+  title: string;
+  joinDate: string;
+}
+
+export interface MemberProps {
+  id: number,
+  userName: string,
+  email: string,
+  title: string,
+  bio: string,
+  avatar: string,
+  joinDate: Date,
+  likeCount: number | 0,
+  postCount: number,
+  followerCount: number,
+  followingCount: number,
+  followerIds: number[],
+  followingIds: number[],
+  banUntilDate: Date
 }

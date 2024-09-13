@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import ReportContentTable from "@/components/mod/ReportContentTable";
@@ -18,10 +18,27 @@ export default function ModDashboard() {
     async function loadDashboardData() {
       setLoading(true);
       try {
-        const modId = 1; // Modify as needed
+        const modId = 76; // Ensure the correct moderator ID
         const data = await fetchModDashboard(modId);
+  
+        // Log the response to ensure the structure is what you expect
+        console.log("API Response Data:", data);
+  
+        // Safeguard for undefined or null response
+        if (!data) {
+          console.error("Error: No data returned from API.");
+          return;
+        }
+  
+        const mappedPendingThreads = data.pendingThreads ? data.pendingThreads.map((thread: any) => ({
+          id: thread.threadId,
+          reason: [thread.reason],
+          threadCategory: thread.threadCategory,
+          comment: thread.title,
+        })) : [];
+  
         setPendingPosts(data.pendingPosts || []);
-        setPendingThreads(data.pendingThreads || []);
+        setPendingThreads(mappedPendingThreads);
         setBannedMembers(data.bannedMembers || []);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
@@ -29,10 +46,10 @@ export default function ModDashboard() {
         setLoading(false);
       }
     }
-
+  
     loadDashboardData();
-  }, []); // Empty array means it runs once on mount
-
+  }, []); // Empty array means it runs once on mount  
+  
   // Show loading state while fetching data
   if (loading) {
     return <div>Loading mod dashboard...</div>;

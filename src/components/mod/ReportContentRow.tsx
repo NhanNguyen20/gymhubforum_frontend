@@ -1,29 +1,30 @@
 import ModButtonGroup from "./ModButtonGroup";
-import { ThreadReportProps, PostReportProps } from "@/types";
+import { PendingThreadReportProps, PostReportProps } from "@/types";
 import Tags from "../Tag";
 
 const ReportContentRow = ({
   threadReport,
   postReport,
 }: {
-  threadReport?: ThreadReportProps;
+  threadReport?: PendingThreadReportProps;
   postReport?: PostReportProps;
 }) => {
   return (
     <div className="m-auto grid grid-cols-8 w-full p-3 bg-white mb-1">
-      <div className="col-span-1">{threadReport?.id || postReport?.id || "Unknown"}</div>
-      <div className="col-span-3">{threadReport?.comment || postReport?.comment || "No additional comment"}</div>
+      {/* Content ID */}
+      <div className="col-span-1">{threadReport?.id || "Unknown"}</div>
+
+      {/* Content (Thread Title or Post Comment) */}
+      <div className="col-span-3">{threadReport?.comment || "No content available"}</div>
+
+      {/* Reasons */}
       <div className="col-span-2 flex justify-center">
-        {(threadReport && (
-          <Tags tags={Array.isArray(threadReport.reason) ? threadReport.reason : []} limit={threadReport.reason?.length || 0} />
-        )) ||
-          (postReport && (
-            <Tags tags={Array.isArray(postReport.reason) ? postReport.reason : []} limit={postReport.reason.length || 0} />
-          )) ||
-          "No reason provided"}
+        <Tags tags={threadReport?.reason || []} limit={1} />
       </div>
+
+      {/* Resolve Actions (buttons) */}
       <div className="col-span-2">
-        <ModButtonGroup action="" reportID={threadReport?.id || postReport?.id || 0} />
+        <ModButtonGroup action="" reportID={threadReport?.id || 0} />
       </div>
     </div>
   );

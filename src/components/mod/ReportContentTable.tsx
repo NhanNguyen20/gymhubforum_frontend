@@ -1,11 +1,7 @@
 import ReportContentRow from "./ReportContentRow";
-import { ThreadReportProps } from "@/types";
+import { PendingThreadReportProps } from "@/types";
 
-const ReportContentTable = ({
-  reportList,
-}: {
-  reportList: ThreadReportProps[];
-}) => {
+const ReportContentTable = ({ reportList }: { reportList: PendingThreadReportProps[] }) => {
   return (
     <div>
       <div className="overflow-x-auto shadow-md sm:rounded-lg bg-gray-100 p-4">
@@ -15,6 +11,7 @@ const ReportContentTable = ({
           <div className="col-span-2 w-full border-[#DFDFE1]">Reasons</div>
           <div className="col-span-2 w-full">Resolve Actions</div>
         </div>
+
         {reportList.map((content, index) => (
           <ReportContentRow key={index} threadReport={content} />
         ))}

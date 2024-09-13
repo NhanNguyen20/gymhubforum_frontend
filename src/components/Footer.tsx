@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-customGray px-4 py-2 flex justify-end items-start h-16 bottom-0 w-full z-50 space-x-6">
+    <footer className="bg-customGray px-4 py-2 flex justify-end items-start h-12 bottom-0 w-full z-50 space-x-6">
       <Link href="/contact-us" className="text-white">
         Contact Us
       </Link>

@@ -1,6 +1,6 @@
 "use client";
 import { createContext, FC, PropsWithChildren, useContext } from "react";
-import { PostInfoProps, ThreadInfoProps } from "@/types";
+import { PostInfoProps } from "@/types";
 
 interface PostContextType {
   threadId: number;

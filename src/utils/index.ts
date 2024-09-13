@@ -1,35 +1,28 @@
-import { ThreadInfoProps } from "@/types"
-
-export async function findThreadById(id: number, threads: ThreadInfoProps[]) {
-    const empty: ThreadInfoProps = {
-        id: 0,
-        creationDateTime: '',
-        likeCount: 0,
-        viewCount: 0,
-        beenReport: false,
-        postCount: 0,
-        authorName: '',
-        authorId: '',
-        authorAvatar: '',
-        title: ''
-    }
-    const res = (threads).find((thread) => thread.id == id)
-    return res || empty;
-}
-
-export function getPostTitle(likeCount: number) {
+export const getTitle = (likeCount:number) => {
     switch (true) {
         case likeCount <= 10:
             return "Chicken Leg";
+            break;
         case likeCount <= 20:
             return "Try-harder";
+            break;
         case likeCount <= 40:
             return "Gym Rat";
+            break;
         case likeCount <= 100:
             return "Gym Bro";
+            break;
         case likeCount <= 500:
             return "Acient Gymmer";
+            break;
         default:
             return "Mr.Olympia";
+            break;
     }
 }
+
+// const getUserIdFromCookies = () => {
+//     const value = `; ${document.cookie}`;
+//     const parts = value.split(`; userId=`);
+//     if (parts.length === 2) return parts.pop().split(';').shift();
+//   };
