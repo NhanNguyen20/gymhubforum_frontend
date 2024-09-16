@@ -5,9 +5,36 @@ import Row from "antd/es/grid/row";
 import Space from "antd/es/space";
 import Typography from "antd/es/typography";
 const { Title, Text } = Typography;
+import { useMember } from "@/context/MemberContext";
 
-const ProfileInfo: React.FC<ProfileInfoProps> = (props) => {
-  const { profileInfo } = props;
+const ProfileInfo: React.FC<{ profileInfo: ProfileInfoProps; accessID: number }> = ({ profileInfo, accessID }) => {
+  const { member } = useMember()
+  const buttonGen = () => {
+    if (member?.id) {
+      if (member?.id == accessID) {
+        return (
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+            <Button type="primary" size="small">
+              Follow
+            </Button>
+            <Button type="primary" danger size="small">
+              Report
+            </Button>
+          </div>
+        )
+      }
+      return (
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+          <Button type="primary" size="small">
+            Update
+          </Button>
+        </div>
+      )
+    }
+    return null
+  }
+
+
 
   return (
     <Space direction="vertical">
@@ -20,16 +47,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = (props) => {
         }}
       >
         <Title level={3}>{profileInfo.userName}</Title>
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
-        >
-          <Button type="primary" size="small">
-            Follow
-          </Button>
-          <Button type="primary" danger size="small">
-            Report
-          </Button>
-        </div>
+        <>{buttonGen}</>
       </Row>
 
       <Text>

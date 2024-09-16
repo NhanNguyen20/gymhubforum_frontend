@@ -17,19 +17,22 @@ export interface PictureProps {
   className?: string;
 }
 
+export interface ProfileDataProps {
+  profileInfo: ProfileInfoProps;
+  profileStats: ProfileStatProps;
+}
+
 export interface ProfileInfoProps {
   // img : string;
-  profileInfo: {
-    id: number;
-    userName: string;
-    email: string;
-    likeCount: number;
-    bio: string;
-    stringAvatar?: string;
-    joinDate: string;
-    lastSeen: string;
-    className?: string;
-  };
+  id: number;
+  userName: string;
+  email: string;
+  likeCount: number;
+  bio: string;
+  encodedImage?: string;
+  joinDate: string;
+  lastSeen: string;
+  className?: string;
 }
 
 export interface ProfileStatProps {
@@ -98,7 +101,7 @@ export enum ThreadCategory {
   ADVICE = "advice",
   SUPPLEMENT = "supplement",
   SUGGESTED = "suggested",
-  LASTPOST = "lastpost"
+  LASTPOST = "lastpost",
 }
 
 export interface ThreadReportProps {
@@ -127,14 +130,12 @@ export interface LatestPostItemProps {
 }
 
 export interface ProfilePreviewProps {
-  account: {
-    email: string;
-    username: string;
-    likeCount: number;
-    password: string;
-    bio: string;
-    avatar?: string;
-  };
+  email: string;
+  username: string;
+  likeCount: number;
+  password: string;
+  bio: string;
+  avatar?: string;
 }
 
 export interface NavbarProps {
@@ -155,18 +156,22 @@ export interface UserBanFormProps {
 }
 
 export interface MemberProps {
-  id: number,
-  userName: string,
-  email: string,
-  title: string,
-  bio: string,
-  avatar: string,
-  joinDate: Date,
-  likeCount: number | 0,
-  postCount: number,
-  followerCount: number,
-  followingCount: number,
-  followerIds: number[],
-  followingIds: number[],
-  banUntilDate: Date
+  id: number;
+  userName: string;
+  email: string;
+  title: string;
+  bio: string;
+  avatar: string;
+  joinDate: Date;
+  likeCount: number | 0;
+  postCount: number;
+  followerCount: number;
+  followingCount: number;
+  followerIds: number[];
+  followingIds: number[];
+  banUntilDate: Date;
+}
+
+export interface ProfileCardProps {
+  id: number;
 }

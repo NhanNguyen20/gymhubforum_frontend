@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import LastestPostItem from "./LatestPostItem/LatestPostItem";
@@ -8,122 +8,44 @@ import Title from "antd/es/typography/Title";
 import Layout from "antd/es/layout/layout";
 import List from "antd/es/list";
 import Pagination from "antd/es/pagination/Pagination";
+import { fetchMemberPosts } from "@/api"; // Import the API function to fetch posts
 
-const mockPosts: LatestPostProps[] = [
-  {
-    tags: {
-      tags: ['Nutrition', 'Health', 'Wellness'],
-      limit: 3,
-    },
-    avatar: null,
-    title: 'The Ultimate Guide to Healthy Eating',
-    content: 'Eating healthy is not just about cutting calories; it’s about getting the right nutrients...',
-    date: '2024-08-30',
-    boxType: 'Nutrition',
-  },
-  {
-    tags: {
-      tags: ['Fitness', 'Workout', 'Exercise'],
-      limit: 3,
-    },
-    avatar: null,
-    title: 'Top 10 Workouts for Building Strength',
-    content: 'Strength training is crucial for overall health and fitness. Here are the top 10 workouts...',
-    date: '2024-08-28',
-    boxType: 'Workout',
-  },
-  {
-    tags: {
-      tags: ['Mental Health', 'Mindfulness', 'Stress'],
-      limit: 3,
-    },
-    avatar: null,
-    title: 'Managing Stress Through Mindfulness',
-    content: 'Mindfulness is a powerful tool for managing stress. Learn how to incorporate it into your daily life...',
-    date: '2024-08-25',
-    boxType: 'Mental Health',
-  },
-  {
-    tags: {
-      tags: ['Diet', 'Recipes', 'Cooking'],
-      limit: 3,
-    },
-    avatar: null,
-    title: 'Healthy Recipes for Weight Loss',
-    content: 'Discover delicious and healthy recipes that will help you shed those extra pounds...',
-    date: '2024-08-20',
-    boxType: 'Diet',
-  },
-  {
-    tags: {
-      tags: ['Cardio', 'Fitness Tips', 'Endurance'],
-      limit: 3,
-    },
-    avatar: null,
-    title: 'Boost Your Endurance with Cardio',
-    content: 'Cardio exercises are essential for improving endurance. Here’s how you can get started...',
-    date: '2024-08-18',
-    boxType: 'Cardio',
-  },
-  {
-    tags: {
-      tags: ['Mental Health', 'Mindfulness', 'Stress'],
-      limit: 3,
-    },
-    avatar: null,
-    title: 'Managing Stress Through Mindfulness',
-    content: 'Mindfulness is a powerful tool for managing stress. Learn how to incorporate it into your daily life...',
-    date: '2024-08-25',
-    boxType: 'Mental Health',
-  },
-  {
-    tags: {
-      tags: ['Diet', 'Recipes', 'Cooking'],
-      limit: 3,
-    },
-    avatar: null,
-    title: 'Healthy Recipes for Weight Loss',
-    content: 'Discover delicious and healthy recipes that will help you shed those extra pounds...',
-    date: '2024-08-20',
-    boxType: 'Diet',
-  },
-  {
-    tags: {
-      tags: ['Cardio', 'Fitness Tips', 'Endurance'],
-      limit: 3,
-    },
-    avatar: null,
-    title: 'Boost Your Endurance with Cardio',
-    content: 'Cardio exercises are essential for improving endurance. Here’s how you can get started...',
-    date: '2024-08-18',
-    boxType: 'Cardio',
-  },
-];
-
-const ProfileLatestPost: React.FC = () => {
+const ProfileLatestPost: React.FC<{ accessId: number }> = ({ accessId }) => {
   const [data, setData] = useState<LatestPostProps[]>([]);
+  const [pageData, setPageData] = useState<LatestPostProps[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [total, setTotal] = useState<number>(mockPosts.length); // Set total based on mock data length
+  const [total, setTotal] = useState<number>(0);
   const pageSize = 5;
 
-  const getData = (page: number) => {
+  // Fetch all posts from the backend
+  const getData = async () => {
     try {
-      // Mocking pagination by slicing the data based on the page number and page size
-      const startIndex = (page - 1) * pageSize;
-      const endIndex = startIndex + pageSize;
-      const result = mockPosts.slice(startIndex, endIndex); // Slicing the mock data
-      setData(result);
+      const posts = await fetchMemberPosts(accessId); // Fetch posts from API
+      setData(posts); // Set all posts data
+      setTotal(posts.length); // Set total posts count
+      paginatePosts(posts, page); // Paginate posts for the first page
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
   };
 
+  // Function to paginate posts locally
+  const paginatePosts = (posts: LatestPostProps[], currentPage: number) => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    setPageData(posts.slice(startIndex, endIndex)); // Set the current page data
+  };
+
   useEffect(() => {
-    getData(page);
+    getData(); // Fetch all data when the component mounts
+  }, [accessId]);
+
+  useEffect(() => {
+    paginatePosts(data, page); // Paginate data when page changes
   }, [page]);
 
   const handlePageChange = (page: number) => {
-    setPage(page);
+    setPage(page); // Update current page
   };
 
   return (
@@ -151,7 +73,7 @@ const ProfileLatestPost: React.FC = () => {
           Latest Posts
         </Title>
         <List
-          dataSource={data}
+          dataSource={pageData} // Use the paginated data
           style={{ borderRadius: "0" }}
           renderItem={(item) => (
             <List.Item
@@ -197,8 +119,8 @@ const ProfileLatestPost: React.FC = () => {
           size="small"
           current={page}
           pageSize={pageSize}
-          total={total}
-          onChange={handlePageChange}
+          total={total} // Total posts count
+          onChange={handlePageChange} // Handle page change
           style={{ marginBottom: "5px", marginLeft: "5px" }}
         />
       </Layout>

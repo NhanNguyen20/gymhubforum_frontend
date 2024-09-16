@@ -1,27 +1,15 @@
 "use client";
 
-
 import React from 'react';
-import { Card, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
 import { ProfilePreviewProps } from '@/types';
-import Picture from '@/components/Picture';
-import Image from 'next/image';
-import abc from '~/images/abc.png'
+import { getTitle } from '@/utils';
 
-interface AccountPreviewProps {
-  account: {
-    email: string;
-    username: string;
-    title: string;
-    password: string;
-    bio: string;
-    avatar?: string;
-  };
-}
+const Preview: React.FC<ProfilePreviewProps> = (props) => {
+  if (!props) return null; // Return null if data is not yet available
 
-const Preview: React.FC<ProfilePreviewProps> = ({ account }) => {
   return (
-    <Form layout="vertical" initialValues={account}>
+    <Form layout="vertical" initialValues={props}>
       <Form.Item label="Email" name="email">
         <Input disabled />
       </Form.Item>
@@ -30,7 +18,7 @@ const Preview: React.FC<ProfilePreviewProps> = ({ account }) => {
         <Input disabled />
       </Form.Item>
 
-      <Form.Item label="Title" name="likeCount">
+      <Form.Item label="Title" name={getTitle(props.likeCount)}>
         <Input disabled />
       </Form.Item>
 
@@ -42,8 +30,6 @@ const Preview: React.FC<ProfilePreviewProps> = ({ account }) => {
         <Input.TextArea rows={4} disabled />
       </Form.Item>
     </Form>
-
-
   );
 };
 
