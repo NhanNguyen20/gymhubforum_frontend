@@ -19,12 +19,12 @@ const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
 
 interface FormGroupProps {
   formType: string;
-  onSubmit?: () => void;
+  onSubmit?: (formData: Record<string, any>) => void; // Modified to accept form data
   classes?: string;
 }
 
 const FormGroup = ({ formType, classes, onSubmit }: FormGroupProps) => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<Record<string, any>>({});
 
   const handleInputChange = (field: string, newVal: string | string[]) => {
     setFormData((prevState) => ({
@@ -36,6 +36,11 @@ const FormGroup = ({ formType, classes, onSubmit }: FormGroupProps) => {
   const handleSubmit = () => {
     console.log(formData);
     handleForm(formType, formData);
+
+    // If onSubmit is provided, pass the formData to it
+    if (onSubmit) {
+      onSubmit(formData);
+    }
   };
 
   const getFormFields = () => {
@@ -56,6 +61,7 @@ const FormGroup = ({ formType, classes, onSubmit }: FormGroupProps) => {
         return []; // empty array or handle unknown form types
     }
   };
+
   const formFields = getFormFields();
 
   return (
@@ -81,7 +87,7 @@ const FormGroup = ({ formType, classes, onSubmit }: FormGroupProps) => {
         ))}
 
         <Form.Item className="flex justify-center">
-          <Button type="primary" htmlType="submit" onClick={onSubmit}>
+          <Button type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>

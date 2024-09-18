@@ -1,32 +1,59 @@
 import ModButtonGroup from "./ModButtonGroup";
-import { PendingThreadReportProps, PostReportProps } from "@/types";
-import Tags from "../Tag";
+import { PendingThreadReportProps, PendingPostReportProps } from "@/types";
 
 const ReportContentRow = ({
   threadReport,
   postReport,
+  rowIndex,
+  modID,
 }: {
   threadReport?: PendingThreadReportProps;
-  postReport?: PostReportProps;
+  postReport?: PendingPostReportProps;
+  rowIndex: number;
+  modID: number;
 }) => {
+  const isPost = !!postReport;
+  const contentID = isPost ? postReport?.postID : threadReport?.threadId;
+
+  const handleResolve = (newToxicStatus: string) => {
+    console.log(`Resolved ${isPost ? "post" : "thread"} as ${newToxicStatus}`);
+    // Additional actions after resolving, if needed
+  };
+
   return (
-    <div className="m-auto grid grid-cols-8 w-full p-3 bg-white mb-1">
-      {/* Content ID */}
-      <div className="col-span-1">{threadReport?.id || "Unknown"}</div>
+    <tr className="hover:bg-gray-50">
+      {/* Row Number */}
+      <td className="px-6 py-5 border-b border-gray-300 font-bold text-gray-900 text-left">
+        {rowIndex + 1}
+      </td>
 
       {/* Content (Thread Title or Post Comment) */}
-      <div className="col-span-3">{threadReport?.comment || "No content available"}</div>
+      <td className="px-6 py-5 border-b border-gray-300 font-bold text-gray-900 break-words">
+        {isPost
+          ? postReport?.content || "No content available"
+          : threadReport?.title || "No title available"}
+      </td>
 
       {/* Reasons */}
-      <div className="col-span-2 flex justify-center">
-        <Tags tags={threadReport?.reason || []} limit={1} />
-      </div>
+      <td className="px-6 py-5 border-b border-gray-300 text-gray-900 break-words">
+        {isPost
+          ? postReport?.reason || "No reason provided"
+          : threadReport?.reason || "No reason provided"}
+      </td>
 
       {/* Resolve Actions (buttons) */}
-      <div className="col-span-2">
-        <ModButtonGroup action="" reportID={threadReport?.id || 0} />
-      </div>
-    </div>
+      <td className="px-4 py-5 border-b border-gray-300 text-gray-900 w-32 text-center">
+        <ModButtonGroup
+          postID={contentID || 0}
+          modID={modID}
+          handleResolve={handleResolve}
+          isPost={isPost}
+          threadID={postReport?.threadId} // Pass threadID for posts
+          category={threadReport?.threadCategory} // Pass category for threads
+          reason={isPost ? postReport?.reason || "" : threadReport?.reason || ""}
+        />
+      </td>
+    </tr>
   );
 };
 

@@ -1,43 +1,40 @@
-"use client";
+"use client"
 
 import React, { useEffect, useState } from "react";
 import ReportContentTable from "@/components/mod/ReportContentTable";
 import UserBanListTable from "@/components/mod/UserBanListTable";
-import UserBanForm from "@/components/mod/UserBanForm";
-import { fetchModDashboard } from "@/api"; // Import the API function
+import { fetchModDashboard, unbanMember } from "@/api"; 
+import { BannedMember } from "@/types";
 
 export default function ModDashboard() {
-  // State to hold fetched data
   const [pendingPosts, setPendingPosts] = useState([]);
   const [pendingThreads, setPendingThreads] = useState([]);
-  const [bannedMembers, setBannedMembers] = useState([]);
+  const [bannedMembers, setBannedMembers] = useState<BannedMember[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // MOD ID
+  const modID = 76; 
 
   // Fetch the mod dashboard data when the component mounts
   useEffect(() => {
     async function loadDashboardData() {
       setLoading(true);
       try {
-        const modId = 76; // Ensure the correct moderator ID
-        const data = await fetchModDashboard(modId);
-  
-        // Log the response to ensure the structure is what you expect
-        console.log("API Response Data:", data);
-  
-        // Safeguard for undefined or null response
+        const data = await fetchModDashboard(modID);
         if (!data) {
           console.error("Error: No data returned from API.");
           return;
         }
+        
+        const mappedPendingThreads = data.pendingThreads?.map((thread: any) => ({
+          ...thread,
+        })) || [];
   
-        const mappedPendingThreads = data.pendingThreads ? data.pendingThreads.map((thread: any) => ({
-          id: thread.threadId,
-          reason: [thread.reason],
-          threadCategory: thread.threadCategory,
-          comment: thread.title,
-        })) : [];
+        const mappedPendingPosts = data.pendingPosts?.map((post: any) => ({
+          ...post,
+        })) || [];
   
-        setPendingPosts(data.pendingPosts || []);
+        setPendingPosts(mappedPendingPosts);
         setPendingThreads(mappedPendingThreads);
         setBannedMembers(data.bannedMembers || []);
       } catch (error) {
@@ -48,9 +45,18 @@ export default function ModDashboard() {
     }
   
     loadDashboardData();
-  }, []); // Empty array means it runs once on mount  
-  
-  // Show loading state while fetching data
+  }, []);
+
+  // Function to handle unbanning a member
+  const handleUnbanSuccess = async (userId: number) => {
+    try {
+      await unbanMember(modID, userId); 
+      setBannedMembers(bannedMembers.filter((member) => member.id !== userId));
+    } catch (error) {
+      console.error("Error unbanning member:", error);
+    }
+  };
+
   if (loading) {
     return <div>Loading mod dashboard...</div>;
   }
@@ -60,22 +66,21 @@ export default function ModDashboard() {
       {/* Pending Posts Section */}
       <div className="mb-20">
         <h2 className="text-2xl font-bold mb-6">Pending Posts</h2>
-        <ReportContentTable reportList={pendingPosts} />
+        <ReportContentTable reportList={pendingPosts} isPostReport={true} modID={modID} />
       </div>
 
       {/* Pending Threads Section */}
       <div className="mb-20">
         <h2 className="text-2xl font-bold mb-6">Pending Threads</h2>
-        <ReportContentTable reportList={pendingThreads} />
+        <ReportContentTable reportList={pendingThreads} isPostReport={false} modID={modID} />
       </div>
 
       {/* Banned Members Section */}
       <div className="mb-16">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Banned Members</h2>
-          <UserBanForm />
         </div>
-        <UserBanListTable bannedMembers={bannedMembers} />
+        <UserBanListTable bannedMembers={bannedMembers} onUnbanSuccess={handleUnbanSuccess} />
       </div>
     </div>
   );

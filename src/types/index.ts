@@ -129,10 +129,18 @@ export interface PostReportProps {
 }
 
 export interface PendingThreadReportProps {
-  id: number;
-  reason: string[];
+  threadId: number;
+  title: string;
+  reason: string;
   threadCategory: string;
-  comment: string;
+}
+
+export interface PendingPostReportProps {
+  postID: number;
+  authorUsername: string;
+  content: string;
+  reason: string;
+  threadId: number;  // Add this line to include the threadId
 }
 
 export interface LatestPostItemProps {
@@ -159,17 +167,6 @@ export interface NavbarProps {
   mID: number;
 }
 
-export interface UserBanListTableProps {
-  username: string;
-  banReason: string;
-  banDuration: string;
-}
-
-export interface UserBanFormProps {
-  title: string;
-  joinDate: string;
-}
-
 export interface MemberProps {
   id: number,
   userName: string,
@@ -185,4 +182,11 @@ export interface MemberProps {
   followerIds: number[],
   followingIds: number[],
   banUntilDate: Date
+}
+
+export interface BannedMember {
+  id: number;
+  userName: string;
+  bannedUntil: string;
+  reason: string;
 }
