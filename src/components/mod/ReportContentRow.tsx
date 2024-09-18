@@ -14,6 +14,7 @@ const ReportContentRow = ({
 }) => {
   const isPost = !!postReport;
   const contentID = isPost ? postReport?.postID : threadReport?.threadId;
+  const ownerID = isPost ? postReport?.ownerId : threadReport?.ownerId; // Add this line to retrieve ownerID
 
   const handleResolve = (newToxicStatus: string) => {
     console.log(`Resolved ${isPost ? "post" : "thread"} as ${newToxicStatus}`);
@@ -51,6 +52,7 @@ const ReportContentRow = ({
           threadID={postReport?.threadId} // Pass threadID for posts
           category={threadReport?.threadCategory} // Pass category for threads
           reason={isPost ? postReport?.reason || "" : threadReport?.reason || ""}
+          ownerID={ownerID || 0} // Pass the ownerID to the ModButtonGroup
         />
       </td>
     </tr>

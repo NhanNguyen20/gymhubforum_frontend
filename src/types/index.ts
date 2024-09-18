@@ -133,6 +133,7 @@ export interface PendingThreadReportProps {
   title: string;
   reason: string;
   threadCategory: string;
+  ownerId: number;
 }
 
 export interface PendingPostReportProps {
@@ -141,6 +142,7 @@ export interface PendingPostReportProps {
   content: string;
   reason: string;
   threadId: number;  // Add this line to include the threadId
+  ownerId: number;
 }
 
 export interface LatestPostItemProps {

@@ -10,6 +10,7 @@ const ModButtonGroup = ({
   threadID, // For posts, threadID is required
   category,  // For threads, category is required
   reason,    // Reason provided for the report
+  ownerID,   // Owner ID for the user to ban
 }: {
   postID: number;
   modID: number;
@@ -18,6 +19,7 @@ const ModButtonGroup = ({
   threadID?: number; // Only for posts
   category?: string; // Only for threads
   reason: string; // Reason for report
+  ownerID: number; // New param: Owner ID for the user to ban
 }) => {
   const [isResolveModalOpen, setIsResolveModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,8 +31,8 @@ const ModButtonGroup = ({
   // Handle banning member
   const handleBan = async () => {
     try {
-      console.log('Banning Member:', { modID, postID, banDuration, banReason });
-      const response = await banMember(modID, postID, banDuration, banReason);
+      console.log('Banning Member:', { modID, ownerID, banDuration, banReason });
+      const response = await banMember(modID, ownerID, banDuration, banReason); // Use ownerID instead of postID
       console.log('Ban Member Response:', response);
       message.success("Member banned successfully!");
     } catch (error) {
