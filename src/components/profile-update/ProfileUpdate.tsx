@@ -10,12 +10,15 @@ import Col from 'antd/es/grid/col';
 import { useMember } from '@/context/MemberContext';
 import { getMemberPreview, updateMemberProfile } from '@/api';
 
-const ProfileUpdate: React.FC = () => {
+interface ProfileUpdateProps {
+  id: number;
+}
+
+const ProfileUpdate: React.FC<ProfileUpdateProps> = ({ id }) => {
   const [account, setAccount] = useState<ProfilePreviewProps>({
     email: '',
     username: '',
     likeCount: 0,
-    password: '',
     bio: '',
     avatar: '',
   });
@@ -23,14 +26,13 @@ const ProfileUpdate: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchProfile = async () => {
-    if (member?.id) {
+    if (member?.id == id) {
       try {
-        const data = await getMemberPreview(member.id);
+        const data = await getMemberPreview(id);
         setAccount({
           email: data.email,
           username: data.username,
           likeCount: data.likeCount,
-          password: data.password,
           bio: data.bio,
           avatar: data.avatar,
         });
@@ -53,7 +55,7 @@ const ProfileUpdate: React.FC = () => {
 
       // Append basic fields
       formData.append('id', String(member?.id));
-      formData.append('password', values.newPassword || account?.password);
+      formData.append('password', values.newPassword);
       formData.append('bio', values.bio || account?.bio);
 
       // If there's an avatar, append it as a file (like in the image)
@@ -74,6 +76,7 @@ const ProfileUpdate: React.FC = () => {
   if (loading) {
     return <p>Loading...</p>;
   }
+  console.log('account', account)
 
   return (
     <Layout style={{ background: '#fff', borderRadius: '10px', width: '75%', height: '80%', margin: 'auto', boxShadow: '0 10px 20px rgba(0, 0, 0, 0.15)', marginTop: '40px' }}>
@@ -87,7 +90,6 @@ const ProfileUpdate: React.FC = () => {
             email={account?.email}
             username={account?.username}
             likeCount={account?.likeCount}
-            password={account?.password}
             bio={account?.bio}
             avatar={account?.avatar}
           />

@@ -47,7 +47,7 @@ export interface LatestPostProps {
   avatar: Blob | null;
   title: string;
   content: string;
-  date: string;
+  creationDateTime: string;
   boxType: string;
   className?: string;
 }
@@ -124,7 +124,7 @@ export interface PostReportProps {
 
 export interface LatestPostItemProps {
   content: string;
-  date: string;
+  creationDate: string;
   boxType: string;
   className?: string;
 }
@@ -133,7 +133,6 @@ export interface ProfilePreviewProps {
   email: string;
   username: string;
   likeCount: number;
-  password: string;
   bio: string;
   avatar?: string;
 }

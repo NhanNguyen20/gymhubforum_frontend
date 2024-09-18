@@ -28,7 +28,6 @@ const ProfileLatestPost: React.FC<{ accessId: number }> = ({ accessId }) => {
       console.error("Error fetching posts:", error);
     }
   };
-
   // Function to paginate posts locally
   const paginatePosts = (posts: LatestPostProps[], currentPage: number) => {
     const startIndex = (currentPage - 1) * pageSize;
@@ -78,13 +77,13 @@ const ProfileLatestPost: React.FC<{ accessId: number }> = ({ accessId }) => {
           renderItem={(item) => (
             <List.Item
               className="latestPostItem"
-              extra={
-                <Tags
-                  tags={item.tags.tags}
-                  limit={2}
-                  className="self-start mt-1"
-                />
-              }
+              // extra={
+              //   <Tags
+              //     tags={item.tags.tags}
+              //     limit={2}
+              //     className="self-start mt-1"
+              //   />
+              // }
               style={{ padding: "5px", borderBottom: "1px dashed #000" }}
             >
               <List.Item.Meta
@@ -105,7 +104,7 @@ const ProfileLatestPost: React.FC<{ accessId: number }> = ({ accessId }) => {
                   <LastestPostItem
                     className={item.className}
                     content={item.content}
-                    date={item.date}
+                    creationDate={item.creationDateTime}
                     boxType={item.boxType}
                   />
                 }

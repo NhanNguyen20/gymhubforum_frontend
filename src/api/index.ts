@@ -37,7 +37,7 @@ export async function login(data: any) {
   try {
     const res = await axios.post("/auth/login", data);
     if (res.status == 200) {
-      const mem = fetchMember(data.username);
+      const mem = fetchMemberByUsername(data.username);
       return mem;
     }
   } catch (error) {
@@ -174,19 +174,31 @@ export async function updatePost(id: number, data: any) {
 }
 
 //// ===== MEMBER ===== ////
-export async function fetchMember(id: number) {
+export async function fetchMemberByUsername(username: string) {
   try {
-    const res = await axios.get(`member/${id}`);
-    console.log("res.date:",res.data )
+    const res = await axios.get(`member/username/${username}`);
+    console.log("res.data:",res.data )
     return res.data;
   } catch (error) {
     console.log(error);
   }
 }
 
+export async function fetchMember(id: number) {
+  try {
+    const res = await axios.get(`member/${id}`);
+    console.log("res.data:",res.data )
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 export async function fetchMemberPosts(id: number) {
   try {
     const response = await axios.get(`/member/${id}/post`);
+    console.log('response.data', response.data)
     return response.data; // Return the posts data
   } catch (error) {
     console.error("Error fetching member posts:", error);

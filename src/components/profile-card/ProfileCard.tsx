@@ -10,7 +10,6 @@ import { fetchMember } from "@/api";
 import { ProfileDataProps } from "@/types";
 
 const ProfileCard: React.FC<{ accessId: number }> = ({ accessId }) => {
-  console.log('Hello')
   const [profileData, setProfileData] = useState<ProfileDataProps | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   
@@ -81,7 +80,8 @@ const ProfileCard: React.FC<{ accessId: number }> = ({ accessId }) => {
             }}
           >
             <img
-              src={imageSrc || profileData.profileInfo.encodedImage}
+              // src={imageSrc || profileData.profileInfo.encodedImage}
+              src="https://picsum.photos/150"
               alt=""
               style={{ borderRadius: "5px" }}
             />

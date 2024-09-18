@@ -22,10 +22,6 @@ const Preview: React.FC<ProfilePreviewProps> = (props) => {
         <Input disabled />
       </Form.Item>
 
-      <Form.Item label="Password" name="password">
-        <Input.Password disabled />
-      </Form.Item>
-
       <Form.Item label="Write your bio" name="bio">
         <Input.TextArea rows={4} disabled />
       </Form.Item>
