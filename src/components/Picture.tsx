@@ -23,7 +23,7 @@ const Picture: React.FC<PictureProps> = ({ blob, alt, className }) => {
       {blobUrl ? (
         <img src={blobUrl} alt={alt} className={className} />
       ) : (
-        <p>Loading image...</p>
+        <></>
       )}
     </div>
   );

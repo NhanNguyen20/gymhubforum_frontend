@@ -17,19 +17,22 @@ export interface PictureProps {
   className?: string;
 }
 
+export interface ProfileDataProps {
+  profileInfo: ProfileInfoProps;
+  profileStats: ProfileStatProps;
+}
+
 export interface ProfileInfoProps {
   // img : string;
   id: number;
   userName: string;
   email: string;
+  likeCount: number;
   bio: string;
-  stringAvatar?: string;
+  encodedImage?: string;
   joinDate: string;
   lastSeen: string;
   className?: string;
-  likeCount: number;
-  postCount: number;
-  followerCount: number;
 }
 
 export interface ProfileStatProps {
@@ -40,9 +43,11 @@ export interface ProfileStatProps {
 }
 
 export interface LatestPostProps {
+  tags: TagsProps;
+  avatar: Blob | null;
   title: string;
   content: string;
-  date: string;
+  creationDateTime: string;
   boxType: string;
   className?: string;
 }
@@ -58,7 +63,7 @@ export interface PostDetailProps {
   postId: number;
   authorId: number;
   content: string;
-  encodedImages: string[];
+  encodedImages?: string[];
   className?: string;
 }
 
@@ -92,11 +97,12 @@ export interface PostInfoProps {
 }
 
 export enum ThreadCategory {
-  FLEXING = "FLEXING",
-  ADVISE = "ADVISE",
-  SUPPLEMENT = "SUPPLEMENT",
+  FLEXING = "flexing",
+  ADVICE = "advice",
+  SUPPLEMENT = "supplement",
+  SUGGESTED = "suggested",
+  LASTPOST = "lastpost",
 }
-
 
 export interface ThreadReportProps {
   id: number;
@@ -118,20 +124,17 @@ export interface PostReportProps {
 
 export interface LatestPostItemProps {
   content: string;
-  date: string;
+  creationDate: string;
   boxType: string;
   className?: string;
 }
 
 export interface ProfilePreviewProps {
-  account: {
-    email: string;
-    username: string;
-    likeCount: number;
-    password: string;
-    bio: string;
-    avatar?: string;
-  };
+  email: string;
+  username: string;
+  likeCount: number;
+  bio: string;
+  avatar?: string;
 }
 
 export interface NavbarProps {
@@ -149,4 +152,25 @@ export interface UserBanListTableProps {
 export interface UserBanFormProps {
   title: string;
   joinDate: string;
+}
+
+export interface MemberProps {
+  id: number;
+  userName: string;
+  email: string;
+  title: string;
+  bio: string;
+  avatar: string;
+  joinDate: Date;
+  likeCount: number | 0;
+  postCount: number;
+  followerCount: number;
+  followingCount: number;
+  followerIds: number[];
+  followingIds: number[];
+  banUntilDate: Date;
+}
+
+export interface ProfileCardProps {
+  id: number;
 }

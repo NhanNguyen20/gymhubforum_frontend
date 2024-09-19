@@ -19,25 +19,5 @@ const PostStats = ({ props }: { props: PostStatsProps }) => {
   );
 };
 
-export const UserPostTitle = ({ likeCount }: { likeCount: number }) => {
-  const getTitle = () => {
-    switch (true) {
-      case likeCount <= 10:
-        return "Chicken Leg";
-      case likeCount <= 20:
-        return "Try-harder";
-      case likeCount <= 40:
-        return "Gym Rat";
-      case likeCount <= 100:
-        return "Gym Bro";
-      case likeCount <= 500:
-        return "Acient Gymmer";
-      default:
-        return "Mr.Olympia";
-    }
-  };
-
-  return <p>{getTitle()}</p>;
-};
 
 export default PostStats;
