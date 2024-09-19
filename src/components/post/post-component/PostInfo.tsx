@@ -1,11 +1,14 @@
 import { PostDetailProps } from "@/types";
 import { Image } from "antd";
+import { decodeBase64Image } from "@/utils";
 
 const PostInfo = ({ postInfo }: { postInfo: PostDetailProps }) => {
   return (
     <div className={postInfo.className}>
       <p className="mb-5 text-gray-500">
-        {postInfo.creationDateTime}
+        {postInfo.creationDateTime.toString().slice(0, 10)}
+        <span> at </span>
+        {postInfo.creationDateTime.toString().slice(11, 19)}
         <span className="float-right">#{postInfo.postId}</span>
       </p>
 
@@ -17,16 +20,18 @@ const PostInfo = ({ postInfo }: { postInfo: PostDetailProps }) => {
               console.log(`current index: ${current}, prev index: ${prev}`),
           }}
         >
-          <Image
-            className="pr-1"
-            width={300}
-            height={400}
-            src={
-              postInfo.encodedImage ||
-              "https://i.pinimg.com/originals/c8/ab/61/c8ab614eb7f602cf471e1fdefd06f8a1.jpg"
-            }
-            alt="image"
-          />
+          {postInfo.encodedImage &&
+            postInfo.encodedImage.length > 0 &&
+            postInfo.encodedImage.map((image, index) => (
+              <Image
+                key={index}
+                className="pr-1"
+                width={300}
+                height={400}
+                src={decodeBase64Image(image)}
+                alt={`image-${index}`}
+              />
+            ))}
         </Image.PreviewGroup>
       </div>
     </div>

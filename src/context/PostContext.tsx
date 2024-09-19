@@ -1,6 +1,6 @@
 "use client";
 import { createContext, FC, PropsWithChildren, useContext } from "react";
-import { PostInfoProps, ThreadInfoProps } from "@/types";
+import { PostInfoProps } from "@/types";
 
 interface PostContextType {
   threadId: number;
@@ -11,6 +11,7 @@ interface PostContextType {
   authorName: string;
   authorId: string;
   title: string;
+  tagIds: number[];
   posts: PostInfoProps[];
 }
 
@@ -24,6 +25,7 @@ export const PostContext = createContext<PostContextType>({
   authorId: "",
   title: "",
   posts: [],
+  tagIds: [],
 } as PostContextType);
 
 export const PostContextProvider: FC<PropsWithChildren<PostContextType>> = ({
@@ -37,6 +39,7 @@ export const PostContextProvider: FC<PropsWithChildren<PostContextType>> = ({
   authorId,
   title,
   posts,
+  tagIds,
 }) => {
   return (
     <PostContext.Provider
@@ -50,6 +53,7 @@ export const PostContextProvider: FC<PropsWithChildren<PostContextType>> = ({
         authorId,
         title,
         posts,
+        tagIds,
       }}
     >
       {children}

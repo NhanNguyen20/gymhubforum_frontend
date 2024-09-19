@@ -1,15 +1,24 @@
 "use client";
-import { FC } from "react";
-import { usePost } from "@/context/PostContext";
+import React from "react";
 import Post from "@/components/post/Post";
+import { PostInfoProps } from "@/types";
 
-const Posts: FC = () => {
-  const { posts } = usePost();
+const Posts = ({
+  posts,
+  threadId,
+}: {
+  posts: PostInfoProps[];
+  threadId: number;
+}) => {
   return (
     <>
-      {posts.map((item, i) => (
-        <Post key={i} post={item} />
-      ))}
+      {Array.isArray(posts) ? (
+        posts.map((item, i) => (
+          <Post key={i} index={i + 1} post={item} threadId={threadId} />
+        ))
+      ) : (
+        <p>No posts available</p>
+      )}
     </>
   );
 };

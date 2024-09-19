@@ -1,21 +1,26 @@
-"use client"
-
+"use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation"; // Use Next.js router for navigation
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { NavbarProps } from "@/types";
-import { SearchOutlined } from "@ant-design/icons";
+import { FilterOutlined } from "@ant-design/icons";
 import websiteLogo from "/public/images/logo.webp";
+import { useMember } from "@/context/MemberContext";
+import SearchBar from "./form/SearchBar";
+import ThreadSortOption from "./form/ThreadSortOption";
+import { useTag } from "@/context/TagContext";
 
-const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
+const NavBar = () => {
+  const { member } = useMember();
+  const { tags } = useTag();
   const [isSearchVisible, setSearchVisible] = useState(false);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null); // Allow only one tag
+  const [selectedTag, setSelectedTag] = useState<number | null>(null); // Allow only one tag
   const [isTransitioning, setIsTransitioning] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const router = useRouter(); // Initialize the router
 
   const toggleSearch = () => {
     if (isSearchVisible) {
+      console.log(tags);
       setIsTransitioning(true);
       setTimeout(() => setSearchVisible(false), 500);
     } else {
@@ -24,13 +29,14 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
     }
   };
 
-  const handleTagClick = (tag: string) => {
-    setSelectedTag(tag);
+  const handleTagClick = (tagId: number) => {
+    setSelectedTag(tagId);
   };
 
   const handleSearch = () => {
     if (selectedTag) {
-      router.push(`/threads/${selectedTag}`); // Navigate to the selected tag's page
+      setSearchVisible(false);
+      router.push(`/threads?tagfilter=${selectedTag}`);
     }
   };
 
@@ -69,18 +75,29 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
             <span className="text-white text-lg font-semibold">Gym Hub</span>
           </div>
         </Link>
-        <div className="flex space-x-4 relative">
-          <Link href={`/profile/${mID}`}>
-            <span className="text-white">{title}</span>
-          </Link>
+
+        <div className="flex-grow flex justify-center mb-3">
+          <SearchBar />
+        </div>
+
+        <div className="flex space-x-8 relative">
+          {member ? (
+            <Link href={`/profile/${member.id}`}>
+              <span className="text-white">{member.userName}</span>
+            </Link>
+          ) : (
+            <Link href={`/login`}>
+              <span className="text-white">Login</span>
+            </Link>
+          )}
           <button
             onClick={toggleSearch}
             className="text-white flex items-center"
           >
-            <SearchOutlined
+            <FilterOutlined
               style={{ fontSize: "20px", color: "currentColor" }}
             />
-            <span className="ml-1">Search</span>
+            <span className="ml-1">Apply</span>
           </button>
 
           {isSearchVisible && (
@@ -92,33 +109,24 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
                   : "opacity-100 translate-y-0"
               }`}
             >
-              <input
-                type="text"
-                placeholder="Search ..."
-                className="w-full p-2 border rounded mb-4"
-              />
               <div className="mb-4">
                 <label className="block font-bold mb-2">Sort Threads</label>
-                <select className="w-full p-2 border rounded">
-                  <option>Latest Threads</option>
-                  <option>Most Likes</option>
-                  <option>Trending Threads</option>
-                </select>
+                <ThreadSortOption />
               </div>
               <div className="mb-4">
                 <label className="block font-bold mb-2">Filter by Tag</label>
                 <div className="flex flex-wrap gap-2">
-                  {listOfTags.map((tag) => (
+                  {tags.map((tag, index) => (
                     <button
-                      key={tag}
-                      onClick={() => handleTagClick(tag)}
+                      key={index}
+                      onClick={() => handleTagClick(tag.id)}
                       className={`px-3 py-1 rounded-full text-sm ${
-                        selectedTag === tag
+                        selectedTag === tag.id
                           ? "bg-orange-500 text-white"
                           : "bg-gray-200 text-gray-700"
                       }`}
                     >
-                      {tag}
+                      {tag.tagName}
                     </button>
                   ))}
                 </div>
@@ -128,7 +136,7 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
                   className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
                   onClick={handleSearch}
                 >
-                  Search
+                  Apply
                 </button>
               </div>
             </div>
@@ -139,4 +147,4 @@ const Navbar: React.FC<NavbarProps> = ({ title, listOfTags, mID }) => {
   );
 };
 
-export default Navbar;
+export default NavBar;

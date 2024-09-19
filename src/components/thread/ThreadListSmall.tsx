@@ -4,7 +4,7 @@ import { ThreadInfoProps } from "@/types";
 import ThreadStats from "./thread-component/ThreadStats";
 import Link from "next/link";
 
-const ThreadList = ({ threadList }: { threadList: ThreadInfoProps[] }) => {
+const ThreadListSmall = ({ threadList }: { threadList: ThreadInfoProps[] }) => {
   return (
     <>
       <List
@@ -16,23 +16,17 @@ const ThreadList = ({ threadList }: { threadList: ThreadInfoProps[] }) => {
             <List.Item.Meta
               className="pl-5"
               avatar={
-                <Link href={`/profile/${item.id}`}>
-                  <Avatar
-                    src={
-                      item.authorAvatar ||
-                      "https://api.dicebear.com/7.x/miniavs/svg?seed=2"
-                    }
-                  />
-                </Link>
+                <Avatar
+                  src={
+                    item.authorAvatar ||
+                    "https://api.dicebear.com/7.x/miniavs/svg?seed=2"
+                  }
+                />
               }
               title={<Link href={`/profile/${item.id}`}>{item.title}</Link>}
               description={`Started by ${
                 item.authorName
-              } - ${item.creationDateTime
-                .toString()
-                .slice(0, 10)} at ${item.creationDateTime
-                .toString()
-                .slice(11, 19)}`}
+              } - ${item.creationDateTime.toString().slice(0, 10)}`}
             />
             <Link href={`/replies/${item.id}`}>
               <div className="absolute inset-0"></div>
@@ -43,8 +37,9 @@ const ThreadList = ({ threadList }: { threadList: ThreadInfoProps[] }) => {
                 postCount: item.postCount,
                 likeCount: item.likeCount,
                 lastUpload: item.creationDateTime.toString().slice(0, 10), // unclear data
-                className: "grid grid-cols-4 text-center pr-4 max-w-96 mt-2",
+                className: "text-center pr-3",
               }}
+              isSmall={true}
             />
           </List.Item>
         )}
@@ -53,4 +48,4 @@ const ThreadList = ({ threadList }: { threadList: ThreadInfoProps[] }) => {
   );
 };
 
-export default ThreadList;
+export default ThreadListSmall;

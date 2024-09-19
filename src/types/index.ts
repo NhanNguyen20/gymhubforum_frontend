@@ -1,4 +1,5 @@
 export interface PostStatsProps {
+  postId: number;
   likeCount: number;
   className?: string;
 }
@@ -27,14 +28,14 @@ export interface ProfileInfoProps {
   lastSeen: string;
   className?: string;
   likeCount: number;
-  postCount: number;
-  followerCount: number;
+  postCount?: number;
+  followerCount?: number;
 }
 
 export interface SimpleProfileProps {
   authorId: string;
   authorName: string;
-  authorAvatar: string;
+  authorAvatar?: string;
   likeCount: number;
   className?: string;
 }
@@ -47,23 +48,25 @@ export interface ProfileStatProps {
 }
 
 export interface LatestPostProps {
+  tags: TagsProps;
+  avatar: Blob | null;
   title: string;
   content: string;
-  date: string;
+  creationDateTime: string;
   boxType: string;
   className?: string;
 }
 
-export interface TagsProps {
-  tags: string[];
-  limit: number;
+export interface TagProps {
+  id: number;
+  tagName: string;
   className?: string;
 }
 
 export interface PostDetailProps {
   postId: number;
   content: string;
-  encodedImage: string;
+  encodedImage: string[];
   creationDateTime: string;
   className?: string;
 }
@@ -79,6 +82,8 @@ export interface ThreadInfoProps {
   authorId: string;
   authorAvatar: string;
   title: string;
+  tagIds: number[];
+  threadCategoryEnum: string;
   className?: string;
 }
 
@@ -93,18 +98,18 @@ export interface PostInfoProps {
   postCount: number;
   authorName: string;
   authorId: string;
-  authorAvatar: string;
-  name: string;
+  content: string;
   reason: string;
-  encodedImage: string;
+  encodedImage: string[];
   className?: string;
 }
 
 export enum ThreadCategory {
-  FLEXING = "FLEXING",
-  ADVICE = "ADVICE",
-  SUPPLEMENT = "SUPPLEMENT",
-  SUGGESTED = "SUGGESTED",
+  FLEXING = "flexing",
+  ADVICE = "advice",
+  SUPPLEMENT = "supplement",
+  SUGGESTED = "suggested",
+  LASTPOST = "lastpost"
 }
 
 
@@ -128,20 +133,18 @@ export interface PostReportProps {
 
 export interface LatestPostItemProps {
   content: string;
-  date: string;
+  creationDate: string;
   boxType: string;
   className?: string;
 }
 
 export interface ProfilePreviewProps {
-  account: {
-    email: string;
-    username: string;
-    likeCount: number;
-    password: string;
-    bio: string;
-    avatar?: string;
-  };
+  email: string;
+  username: string;
+  likeCount: number;
+  password: string;
+  bio: string;
+  avatar?: string;
 }
 
 export interface NavbarProps {
@@ -154,4 +157,56 @@ export interface UserBanListTableProps {
   username: string;
   banReason: string;
   banDuration: string;
+}
+
+export interface MemberProps {
+  id: number,
+  userName: string,
+  email: string,
+  title: string,
+  bio: string,
+  avatar: string,
+  joinDate: Date,
+  likeCount: number | 0,
+  postCount: number,
+  followerCount: number,
+  followingCount: number,
+  followerIds: number[],
+  followingIds: number[],
+  banUntilDate: Date
+}
+
+export interface BannedMember {
+  id: number;
+  userName: string;
+  bannedUntil: string;
+  reason: string;
+}
+
+export interface PendingThreadReportProps {
+  threadId: number;
+  title: string;
+  reason: string;
+  threadCategory: string;
+  ownerId: number;
+}
+
+export interface PendingPostReportProps {
+  postID: number;
+  authorUsername: string;
+  content: string;
+  reason: string;
+  threadId: number;
+  ownerId: number;
+}
+
+export interface ProfileDataProps {
+  profileInfo: ProfileInfoProps;
+  profileStats: ProfileStatProps;
+}
+
+export interface TagsProps {
+  tags: string[];
+  limit: number;
+  className?: string;
 }

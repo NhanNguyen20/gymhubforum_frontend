@@ -5,13 +5,14 @@ import {
   banMemberFormFields,
   createPostFormFields,
   createThreadFormFields,
-  reportFormFields,
+  reportPostFormFields,
+  reportThreadFormFields,
 } from "@/constants";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { FormProps } from "antd";
 import { Form, Button } from "antd";
 import FormComponent from "./FormComponent";
-import { handleForm } from "@/api";
+import { handleForm, signup } from "@/api";
 
 const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -19,23 +20,46 @@ const onFinishFailed: FormProps["onFinishFailed"] = (errorInfo) => {
 
 interface FormGroupProps {
   formType: string;
-  onSubmit?: () => void;
+  onSubmit?: (data: any) => void;
   classes?: string;
+  passedFormData?: {};
 }
 
-const FormGroup = ({ formType, classes, onSubmit }: FormGroupProps) => {
-  const [formData, setFormData] = useState({});
+const FormGroup = ({
+  formType,
+  classes,
+  onSubmit,
+  passedFormData,
+}: FormGroupProps) => {
+  const [formData, setFormData] = useState(passedFormData || {});
 
-  const handleInputChange = (field: string, newVal: string | string[]) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [field]: newVal,
-    }));
+  const handleInputChange = (
+    field: string,
+    newVal: string | string[] | any
+  ) => {
+    setFormData((prevState) => {
+      let updatedValue = newVal;
+
+      // Check if the field is 'tags' and transform the data if necessary
+      if (field === "tagSet" && Array.isArray(newVal)) {
+        updatedValue = newVal.map((tag) => parseInt(tag));
+      }
+
+      return {
+        ...prevState,
+        [field]: updatedValue,
+      };
+    });
   };
 
-  const handleSubmit = () => {
-    console.log(formData);
-    handleForm(formType, formData);
+  const handleSubmit = async () => {
+    console.log("before submitting ", formData);
+    const res = await handleForm(formType, formData);
+    console.log(res);
+    if (onSubmit) {
+      onSubmit(res);
+      return;
+    }
   };
 
   const getFormFields = () => {
@@ -48,10 +72,14 @@ const FormGroup = ({ formType, classes, onSubmit }: FormGroupProps) => {
         return banMemberFormFields;
       case "create thread":
         return createThreadFormFields;
+      case "update thread":
+        return createThreadFormFields;
       case "create post":
         return createPostFormFields;
-      case "report content":
-        return reportFormFields;
+      case "report post":
+        return reportPostFormFields;
+      case "report thread":
+        return reportThreadFormFields;
       default:
         return []; // empty array or handle unknown form types
     }
@@ -81,7 +109,7 @@ const FormGroup = ({ formType, classes, onSubmit }: FormGroupProps) => {
         ))}
 
         <Form.Item className="flex justify-center">
-          <Button type="primary" htmlType="submit" onClick={onSubmit}>
+          <Button type="primary" htmlType="submit" onClick={handleSubmit}>
             Submit
           </Button>
         </Form.Item>

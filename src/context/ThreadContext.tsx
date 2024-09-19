@@ -7,6 +7,7 @@ interface ThreadContextType {
   threadsFlexing: ThreadInfoProps[];
   threadsSupplement: ThreadInfoProps[];
   threadsSuggested: ThreadInfoProps[];
+  threadsLastpost: ThreadInfoProps[];
   allThreads: ThreadInfoProps[];
 }
 
@@ -15,6 +16,7 @@ export const ThreadContext = createContext<ThreadContextType>({
   threadsFlexing: [],
   threadsSupplement: [],
   threadsSuggested: [],
+  threadsLastpost: [],
   allThreads: [],
 } as ThreadContextType);
 
@@ -26,6 +28,7 @@ export const ThreadContextProvider: FC<
   threadsAdvice,
   threadsFlexing,
   threadsSupplement,
+  threadsLastpost,
   threadsSuggested,
 }) => {
   return (
@@ -36,6 +39,7 @@ export const ThreadContextProvider: FC<
         threadsFlexing,
         threadsSupplement,
         threadsSuggested,
+        threadsLastpost,
       }}
     >
       {children}

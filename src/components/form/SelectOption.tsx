@@ -1,3 +1,4 @@
+"use client";
 import { Select } from "antd";
 import { formSelectOption } from "@/constants";
 
@@ -27,6 +28,7 @@ const SelectOption = ({
               onSearch={onSearch}
               options={options}
               onChange={(e) => {
+                e.preventDefault();
                 updateChange(section.name, e);
               }}
             />

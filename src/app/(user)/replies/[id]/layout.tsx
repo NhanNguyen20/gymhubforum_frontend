@@ -1,9 +1,7 @@
-"use client";
+// "use client";
 import { ReactNode } from "react";
-import { findThreadById } from "@/utils";
-import { fetchPostsThread } from "@/api";
+import { fetchPostsThread, fetchThreadByID } from "@/api";
 import { PostContextProvider } from "@/context/PostContext";
-import { useThread } from "@/context/ThreadContext";
 
 export default async function Layout({
   params,
@@ -13,7 +11,6 @@ export default async function Layout({
   children: ReactNode;
 }) {
   const { id } = params;
-  const { allThreads } = useThread();
   const [
     {
       creationDateTime,
@@ -23,9 +20,12 @@ export default async function Layout({
       authorName,
       authorId,
       title,
+      tagIds,
     },
     posts,
-  ] = await Promise.all([findThreadById(id, allThreads), fetchPostsThread(id)]);
+  ] = await Promise.all([fetchThreadByID(id), fetchPostsThread(id)]);
+  // console.log(posts);
+
   return (
     <PostContextProvider
       threadId={id}
@@ -37,6 +37,7 @@ export default async function Layout({
       authorId={authorId}
       title={title}
       posts={posts}
+      tagIds={tagIds}
     >
       {children}
     </PostContextProvider>

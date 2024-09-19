@@ -1,7 +1,6 @@
 import SelectOption from "./SelectOption";
 import CheckBoxes from "./CheckBoxes";
-import { Button, Input, Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Input, Image, Upload } from "antd";
 import TextArea from "antd/es/input/TextArea";
 
 const FormComponent = ({
@@ -11,7 +10,7 @@ const FormComponent = ({
 }: {
   field: any;
   formType: string;
-  handleInputChange: (val: string, newVal: string | string[]) => void;
+  handleInputChange: (val: string, newVal: string | string[] | any) => void;
 }) => {
   switch (field[1]) {
     case "select":
@@ -22,11 +21,15 @@ const FormComponent = ({
       return (
         <CheckBoxes selectType={formType} updateChange={handleInputChange} />
       );
-    case "fileInput": // UI done, haven't handled for img upload
+    case "fileInput":
       return (
-        <Upload>
-          <Button icon={<UploadOutlined />}>Upload File</Button>
-        </Upload>
+        <>
+          <Upload
+            onChange={(e) => {
+              handleInputChange(field[2], e.event);
+            }}
+          ></Upload>
+        </>
       );
     case "textArea":
       return (
@@ -34,6 +37,7 @@ const FormComponent = ({
           name={field[2]}
           placeholder={field[4]}
           onChange={(e) => {
+            e.preventDefault();
             handleInputChange(field[2], e.target.value);
           }}
         />
@@ -45,6 +49,7 @@ const FormComponent = ({
           name={field[2]}
           placeholder={field[4]}
           onChange={(e) => {
+            e.preventDefault();
             handleInputChange(field[2], e.target.value);
           }}
         />
