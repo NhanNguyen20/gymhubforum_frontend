@@ -4,31 +4,32 @@ import { Button, Modal } from "antd";
 import { useEffect, useState } from "react";
 import FormGroup from "@/components/form/FormGroup";
 import { useMember } from "@/context/MemberContext";
-import { PostInfoProps } from "@/types";
-import HandlePostForm from "@/components/form/HandlePostForm";
+import { findThreadById } from "@/utils";
+import { useThread } from "@/context/ThreadContext";
 
-const PostAction = ({
-  authorId,
-  post,
-  threadId,
-}: {
-  authorId: string;
-  post: PostInfoProps;
-  threadId: number;
-}) => {
+const ThreadAction = ({ threadId }: { threadId: number }) => {
   const { member } = useMember();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<JSX.Element | null>(null);
   const [formData, setFormData] = useState({});
-  const [likeCount, setLikeCount] = useState(post.likeCount);
+  const { allThreads } = useThread();
+  const [authorId, setAuthorId] = useState(0);
 
   useEffect(() => {
-    setFormData({
-      postId: post.id,
-      ownerId: post.authorId,
-      content: post.content,
-      threadId: threadId,
-    });
+    const fetchThread = async () => {
+      try {
+        const thread = await findThreadById(threadId, allThreads);
+        setFormData({
+          threadId: thread.id,
+          category: thread.threadCategoryEnum,
+        });
+        setAuthorId(parseInt(thread.authorId));
+      } catch (error) {
+        console.error("Failed to fetch thread:", error);
+      }
+    };
+
+    fetchThread();
   }, []);
 
   const handleReportSuccess = (status: number) => {
@@ -40,25 +41,23 @@ const PostAction = ({
     }
   };
 
-  const showModal = (type: string) => {
-    if (type === "report post") {
-      setModalContent(
-        <FormGroup
-          formType={type}
-          passedFormData={formData}
-          onSubmit={handleReportSuccess}
-        />
-      );
-    } else {
-      setModalContent(
-        <HandlePostForm
-          type={type}
-          postId={post.id}
-          threadId={threadId}
-          ownerId={parseInt(authorId)}
-        />
-      );
+  const handleUpdateSuccess = (status: number) => {
+    if (status === 200) {
+      setIsModalOpen(false);
+      window?.location.reload();
     }
+  };
+
+  const showModal = (type: string) => {
+    setModalContent(
+      <FormGroup
+        formType={type}
+        onSubmit={
+          type == "report thread" ? handleReportSuccess : handleUpdateSuccess
+        }
+        passedFormData={formData}
+      />
+    );
     setIsModalOpen(true);
   };
 
@@ -68,35 +67,34 @@ const PostAction = ({
   };
 
   return (
-    <div className="grid grid-cols-2">
-      {parseInt(authorId) === member?.id && (
-        <div className="mr-10">
+    <div className="absolute inset-y-0 ml-20">
+      {authorId === member?.id ? (
+        <>
           <Button
             className="mb-2"
             type="default"
             shape="circle"
-            onClick={() => showModal("update post")}
+            onClick={() => showModal("update thread")}
             icon={<EditOutlined />}
           />
           <p>Edit</p>
-        </div>
-      )}
-      {parseInt(authorId) !== member?.id && (
-        <div className="">
+        </>
+      ) : (
+        <>
           <Button
             className="mb-2"
             type="default"
             shape="circle"
-            onClick={() => showModal("report post")}
+            onClick={() => showModal("report thread")}
             icon={<FlagOutlined />}
           />
           <p>Report</p>
-        </div>
+        </>
       )}
       <Modal
         open={isModalOpen}
         onCancel={handleCancel}
-        okButtonProps={{ hidden: true }}
+        okButtonProps={{ disabled: true, hidden: true }}
         cancelButtonProps={{ hidden: true }}
       >
         {modalContent}
@@ -105,4 +103,4 @@ const PostAction = ({
   );
 };
 
-export default PostAction;
+export default ThreadAction;

@@ -1,79 +1,55 @@
-import PostStats from "@/components/post/post-component/PostStats";
-import ThreadStats from "@/components/thread/thread-component/ThreadStats";
-import ProfileInfo from "@/components/profile/profile-component/ProfileInfo";
-import UserBanListTable from "@/components/mod/UserBanListTable";
-import ReportContentTable from "@/components/mod/ReportContentTable";
-import { ThreadReportProps, ThreadCategory } from "@/types";
+"use client";
+import { useThread } from "@/context/ThreadContext";
+import ThreadListHome from "@/components/thread/ThreadListHome";
+import { useMember } from "@/context/MemberContext";
+import { ThreadCategory } from "@/types";
 
 export default function Home() {
-  const reportList: ThreadReportProps[] = [
-    {
-      id: 1,
-      reason: ["Spam", "Offensive Content"],
-      threadCategory: ThreadCategory.FLEXING,
-      from: 1620000000000,
-      to: 1620086400000,
-      comment: "This post violates community guidelines."
-    },
-    {
-      id: 2,
-      reason: ["Harassment"],
-      threadCategory: ThreadCategory.ADVISE,
-      from: 1620050000000,
-      to: 1620126400000,
-    },
-    {
-      id: 3,
-      reason: ["Misinformation"],
-      threadCategory: ThreadCategory.SUPPLEMENT,
-      from: 1620100000000,
-      to: 1620186400000,
-      comment: "This information is misleading and false."
-    },
-    {
-      id: 4,
-      reason: ["Hate Speech"],
-      threadCategory: ThreadCategory.FLEXING,
-      from: 1620150000000,
-      to: 1620236400000,
-      comment: "Contains offensive language towards a group of people."
-    },
-  ];
-  
+  const {
+    threadsAdvice,
+    threadsFlexing,
+    threadsSupplement,
+    threadsSuggested,
+    threadsLastpost,
+  } = useThread();
+  const { member } = useMember();
+  console.log(member);
 
   return (
-    <main>
-      <ReportContentTable reportList={reportList} />
-      <UserBanListTable />
-      <PostStats props={{ likeCount: 520, className: "IDK" }} />
-      <br />
-      <ThreadStats
-        props={{
-          lastUpload: "Ngaynaodo",
-          postCount: 5,
-          viewCount: 5,
-          className: "ThreadStats",
-        }}
-      />
-
-      <br />
-      <ProfileInfo
-        props={{
-          id: 1,
-          userName: "Michelle",
-          email: "mail",
-          likeCount: 20,
-          postCount: 10,
-          followerCount: 100,
-          bio: "abc",
-          joinDate: "a date",
-          lastSeen: "anotherdate",
-          className: "class",
-        }}
-      />
-      <br />
-
-      <br />
+    <main className="grid grid-cols-3 gap-4 p-5">
+      <div className="col-span-2">
+        <ThreadListHome
+          box={ThreadCategory.ADVICE}
+          threadList={threadsAdvice}
+          amount={4}
+        />
+        <ThreadListHome
+          box={ThreadCategory.FLEXING}
+          threadList={threadsFlexing}
+          amount={4}
+        />
+        <ThreadListHome
+          box={ThreadCategory.SUPPLEMENT}
+          threadList={threadsSupplement}
+          amount={4}
+        />
+      </div>
+      <div className="col-span-1">
+        <div className="">
+          <ThreadListHome
+            box={ThreadCategory.SUGGESTED}
+            threadList={threadsSuggested || null}
+            amount={6}
+          />
+        </div>
+        <div className="">
+          <ThreadListHome
+            box={ThreadCategory.LASTPOST}
+            threadList={threadsLastpost || null}
+            amount={6}
+          />
+        </div>
+      </div>
     </main>
   );
 }

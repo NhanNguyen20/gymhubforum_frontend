@@ -1,51 +1,104 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Layout, Divider } from 'antd';
+import React, { useEffect, useState } from 'react';
 import Preview from './profile-update-component/Preview';
 import Updater from './profile-update-component/Updater';
+import { ProfilePreviewProps } from '@/types';
+import Layout from 'antd/es/layout/layout';
+import Row from 'antd/es/grid/row';
+import Col from 'antd/es/grid/col';
+import { useMember } from '@/context/MemberContext';
+import { getMemberPreview, updateMemberProfile } from '@/api';
 
-const { Content, Sider } = Layout;
-
-interface Account {
-  email: string;
-  username: string;
-  likeCount: number;
-  password: string;
-  bio: string;
-  avatar?: string;
+interface ProfileUpdateProps {
+  id: number;
 }
 
-const ProfileUpdate: React.FC = () => {
-  const [account, setAccount] = useState<Account>({
-    email: 'example@gmail.com',
-    username: 'Michelle',
-    likeCount: 100,
-    password: 'iL********1234',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent augue diam, blandit nec metus in, facilisis vehicula lacus...',
-    avatar: '/path/to/avatar.jpg',
+const ProfileUpdate: React.FC<ProfileUpdateProps> = ({ id }) => {
+  const [account, setAccount] = useState<ProfilePreviewProps>({
+    email: '',
+    username: '',
+    likeCount: 0,
+    bio: '',
+    avatar: '',
   });
+  const { member } = useMember();
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const onFinish = (values: any) => {
-    console.log('Received values: ', values);
-    // Here you would typically send the updated data to your backend and update the state
-    setAccount((prevAccount) => ({
-      ...prevAccount,
-      bio: values.bio || prevAccount.bio,
-      avatar: values.avatar || prevAccount.avatar,
-    }));
+  const fetchProfile = async () => {
+    if (member?.id == id) {
+      try {
+        const data = await getMemberPreview(id);
+        setAccount({
+          email: data.email,
+          username: data.username,
+          likeCount: data.likeCount,
+          bio: data.bio,
+          avatar: data.avatar,
+        });
+      } catch (error) {
+        console.error("Error fetching profile: ", error);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
-  return (
-    <Layout style={{ background: '#fff', padding: '24px', borderRadius: '10px' }}>
-      <Sider width={400} style={{ background: '#fff' }}>
-        <Preview account={account} />
-      </Sider>
-      <Divider type="vertical" style={{ height: '100%' }} />
+  useEffect(() => {
+    fetchProfile();
+  }, [member?.id]);
 
-      <Content style={{ padding: '24px' }}>
-        <Updater onFinish={onFinish} />
-      </Content>
+  const handleUpdate = async (values: any) => {
+    try {
+      console.log('Received values: ', values);
+      const formData = new FormData();
+
+      // Append basic fields
+      formData.append('id', String(member?.id));
+      formData.append('password', values.newPassword);
+      formData.append('bio', values.bio || account?.bio);
+
+      // If there's an avatar, append it as a file (like in the image)
+      if (values.avatar) {
+        formData.append('stringAvatar', values.avatar.file); // Assuming `values.avatar.file` contains the file object
+      }
+
+      if (member?.id) {
+        await updateMemberProfile(member.id, formData);
+        // Call fetchProfile again to reload the preview after updating
+        fetchProfile();
+      }
+    } catch (error) {
+      console.error("Error updating profile: ", error);
+    }
+  };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  console.log('account', account)
+
+  return (
+    <Layout style={{ background: '#fff', borderRadius: '10px', width: '75%', height: '80%', margin: 'auto', boxShadow: '0 10px 20px rgba(0, 0, 0, 0.15)', marginTop: '40px' }}>
+      <Row>
+        <Col span={4} style={{ padding: '10px' }}>
+          <img src={account?.avatar || "https://picsum.photos/200"} alt="Avatar" style={{ borderRadius: '5px', margin: 'auto' }} />
+        </Col>
+
+        <Col span={10} style={{ padding: '20px' }}>
+          <Preview
+            email={account?.email}
+            username={account?.username}
+            likeCount={account?.likeCount}
+            bio={account?.bio}
+            avatar={account?.avatar}
+          />
+        </Col>
+
+        <Col span={10} style={{ padding: '20px' }}>
+          <Updater onFinish={handleUpdate} />
+        </Col>
+      </Row>
     </Layout>
   );
 };

@@ -1,14 +1,14 @@
 // label, type, name, value, placeholder
 
 export const loginFormFields = [
-    ['Username', 'text', 'userName', '', 'Enter your username'],
+    ['Username', 'text', 'username', '', 'Enter your username'],
     ['Password', 'password', 'password', '', 'Enter your password']
 ]
 
 export const signupFormFields = [
-    ['Email', 'email', 'email', '', 'Enter your email'],
-    ['Username', 'text', 'userName', '', 'Enter your username'],
+    ['Username', 'text', 'username', '', 'Enter your username'],
     ['Password', 'password', 'password', '', 'Enter your password'],
+    ['Email', 'email', 'email', '', 'Enter your email'],
 ]
 
 export const banMemberFormFields = [
@@ -18,17 +18,22 @@ export const banMemberFormFields = [
 
 export const createThreadFormFields = [
     ['Thread Title', 'text', 'title', '', 'Enter your thread title'],
-    ['Post Content', 'textArea', 'content', '', 'Enter the content for your first post in this thread...'],
+    ['Thread Tags', 'selectMany', 'tagSet', '', 'Select tags for your new thread (Optional)'],
 ]
 
 export const createPostFormFields = [
-    ['Replying', 'textArea', 'reply', '', 'Replying to this thread...'],
-    ['Attach File', 'fileInput', 'file', '', ''],       // havent handle file input
+    ['Replying', 'textArea', 'content', '', 'Replying to this thread...'],
+    ['Attach Files', 'fileInput', 'fileUpload', '', ''],
 ]
 
-export const reportFormFields = [
-    ['Report this content as', 'selectMany', 'reasons', '', 'Select report reasons'],
-    ['Other reasons for your report (Optional)', 'textArea', 'otherReasons', '', 'Enter other report reasons...']
+export const reportPostFormFields = [
+    ['Report this content as', 'selectMany', 'toxic-tags', '', 'Select report reasons'],
+    ['Other reasons for your report (Optional)', 'textArea', 'reason', '', 'Enter other report reasons...']
+]
+
+export const reportThreadFormFields = [
+    // ['Report this content as', 'selectMany', 'toxic-tags', '', 'Select report reasons'],
+    ['Reason for your report', 'textArea', 'reason', '', 'Enter report reasons here...']
 ]
 
 export const formSelectOption = [
@@ -78,9 +83,9 @@ export const formSelectOption = [
 
 export const formCheckBoxes = [
     {
-        formType: 'report content',
+        formType: 'report post',
         title: 'Select Report Reasons',
-        name: 'reasons',
+        name: '',
         options: [
             {
                 value: "body-shaming",
